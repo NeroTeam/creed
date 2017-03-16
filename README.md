@@ -13,4 +13,5 @@ chmod +x launch.sh
 ./launch.sh
 # Enter your Phone 
 ```
-# Thanks To Amir
+thanks to [DR.AMIR](https://telegram.me/bots_sudo)
+# [support](https://telegram.me/Nero_dev)
