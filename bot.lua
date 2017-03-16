@@ -95,7 +95,7 @@ function is_gbanned(msg)
   local chat_id = msg.chat_id_
   local user_id = msg.sender_user_id_
   local var = false
-  local hash = 'bot:gbanned:youseftearbot'
+  local hash = 'bot:gbanned:megacreed'
   local banned = redis:sismember(hash, user_id)
   if banned then
     var = true
@@ -124,7 +124,7 @@ end
 
 function is_added(msg)
   local var = false
-  if redis:sismember('groups:youseftearbot',msg.chat_id_) then
+  if redis:sismember('groups:megacreed',msg.chat_id_) then
     var = true
   end
   return var
@@ -144,7 +144,7 @@ end
 function is_admin(msg)
   local user_id = msg.sender_user_id_
   local var = false
-  local hashs =  'botadmins:youseftearbot'
+  local hashs =  'botadmins:megacreed'
   local admin = redis:sismember(hashs, user_id)
   if admin then
     var = true
@@ -176,7 +176,7 @@ end
 function is_normal(msg)
   local chat_id = msg.chat_id_
   local user_id = msg.sender_user_id_
-  local mutel = redis:sismember('muteusers:youseftearbot'..chat_id,user_id)
+  local mutel = redis:sismember('muteusers:megacreed'..chat_id,user_id)
   if mutel then
     return true
   end
@@ -191,11 +191,11 @@ function is_owner(msg)
   local var = false
   local chat_id = msg.chat_id_
   local user_id = msg.sender_user_id_
-  local group_owners = redis:get('owners:youseftearbot'..chat_id)
+  local group_owners = redis:get('owners:megacreed'..chat_id)
   if group_owners == tostring(user_id) then
     var = true
   end
-  if redis:sismember('botadmins:youseftearbot',user_id) then
+  if redis:sismember('botadmins:megacreed',user_id) then
     var = true
   end
   for v, user in pairs(sudo_users) do
@@ -210,14 +210,14 @@ function is_mod(msg)
   local var = false
   local chat_id = msg.chat_id_
   local user_id = msg.sender_user_id_
-  if redis:sismember('promotes:youseftearbot'..chat_id,user_id) then
+  if redis:sismember('promotes:megacreed'..chat_id,user_id) then
     var = true
   end
-  if redis:sismember('botadmins:youseftearbot',user_id) then
+  if redis:sismember('botadmins:megacreed',user_id) then
     var = true
   end
 
-  if  redis:get('owners:youseftearbot'..chat_id) == tostring(user_id) then
+  if  redis:get('owners:megacreed'..chat_id) == tostring(user_id) then
     var = true
   end
   for v, user in pairs(sudo_users) do
@@ -277,11 +277,11 @@ function vardump(value, depth, key)
     local msg_id = result.id_
     local user = result.sender_user_id_
     local ch = result.chat_id_
-    redis:del('owners:youseftearbot'..ch)
-    redis:srem('owners:youseftearbot'..user,ch)
-    redis:set('owners:youseftearbot'..ch,user)
-    redis:sadd('owners:youseftearbot'..user,ch)
-    if redis:hget(result.chat_id_, "lang:youseftearbot") == "en" then
+    redis:del('owners:megacreed'..ch)
+    redis:srem('owners:megacreed'..user,ch)
+    redis:set('owners:megacreed'..ch,user)
+    redis:sadd('owners:megacreed'..user,ch)
+    if redis:hget(result.chat_id_, "lang:megacreed") == "en" then
       text = 'User : '..get_info(user)..' <b>Has been Promoted As Owner !</b>'
     else
       text = 'کاربر : \n'..get_info(user)..'\n <b>به عنوان مدير ارتقا يافت !</b>'
@@ -295,9 +295,9 @@ function vardump(value, depth, key)
     local msg_id = result.id_
     local user = result.sender_user_id_
     local ch = result.chat_id_
-    redis:del('owners:youseftearbot'..ch)
-    redis:srem('owners:youseftearbot'..msg.sender_user_id_,msg.chat_id_)
-    if redis:hget(result.chat_id_, "lang:youseftearbot") == "en" then
+    redis:del('owners:megacreed'..ch)
+    redis:srem('owners:megacreed'..msg.sender_user_id_,msg.chat_id_)
+    if redis:hget(result.chat_id_, "lang:megacreed") == "en" then
       text = 'User : '..get_info(user)..' <b>Has Been De-Ownered !</b>'
     else
       text = 'کاربر : \n'..get_info(user)..'\n از مديريت عزل شد !'
@@ -308,8 +308,8 @@ function vardump(value, depth, key)
 
 
   function kick_reply(extra, result, success)
-    if redis:sismember('promotes:youseftearbot'..result.chat_id_, result.sender_user_id_) then
-      if redis:hget(result.chat_id_, "lang:youseftearbot") == "en" then
+    if redis:sismember('promotes:megacreed'..result.chat_id_, result.sender_user_id_) then
+      if redis:hget(result.chat_id_, "lang:megacreed") == "en" then
         text = '*You Can,t Kick Moderators !*'
       else
         text = '*شما نميتوانيد مدير و ناظم هارا حذف کنيد !*'
@@ -318,7 +318,7 @@ function vardump(value, depth, key)
     else
       b = vardump(result)
       tdcli.changeChatMemberStatus(result.chat_id_, result.sender_user_id_, 'Kicked')
-      if redis:hget(result.chat_id_, "lang:youseftearbot") == "en" then
+      if redis:hget(result.chat_id_, "lang:megacreed") == "en" then
         text = '<b>Successfull !</b>\n User : '..get_info(result.sender_user_id_)..' <b> Has Been Kicked</b>'
       else
         text = '<b>تراکنش موفق !</b>\nکاربر : \n'..get_info(result.sender_user_id_)..'\n<b>از گروه حذف شد !</b>'
@@ -342,8 +342,8 @@ function vardump(value, depth, key)
     local msg = result.id_
     local user = result.sender_user_id_
     local chat = result.chat_id_
-    redis:sadd('promotes:youseftearbot'..result.chat_id_, user)
-    if redis:hget(result.chat_id_, "lang:youseftearbot") == "en" then
+    redis:sadd('promotes:megacreed'..result.chat_id_, user)
+    if redis:hget(result.chat_id_, "lang:megacreed") == "en" then
       text = 'User : '..get_info(user)..' <b>Has been Promoted !</b>'
     else
       text = 'کاربر : \n'..get_info(user)..'\n ارتقا يافت !'
@@ -356,8 +356,8 @@ function vardump(value, depth, key)
     local msg = result.id_
     local user = result.sender_user_id_
     local chat = result.chat_id_
-    redis:srem('promotes:youseftearbot'..chat,user)
-    if redis:hget(result.chat_id_, "lang:youseftearbot") == "en" then
+    redis:srem('promotes:megacreed'..chat,user)
+    if redis:hget(result.chat_id_, "lang:megacreed") == "en" then
       text = 'User : '..get_info(user)..' <b>Has been Demoted !</b>'
     else
       text = 'کاربر : \n'..get_info(user)..'\n عزل مقام شد !'
@@ -368,15 +368,15 @@ function vardump(value, depth, key)
 
 
   function ban_reply(extra, result, success)
-    if redis:sismember('promotes:youseftearbot'..result.chat_id_, result.sender_user_id_) then
-      if redis:hget(result.chat_id_, "lang:youseftearbot") == "en" then
+    if redis:sismember('promotes:megacreed'..result.chat_id_, result.sender_user_id_) then
+      if redis:hget(result.chat_id_, "lang:megacreed") == "en" then
         text = '*You Can,t Ban Moderators !*'
       else
         text = '*شما نميتوانيد مدير و ناظم ها را بن کنيد !*'
       end
       tdcli.sendText(result.chat_id_, 0, 0, 1, nil, text, 1, 'md')
     else
-      if redis:hget(result.chat_id_, "lang:youseftearbot") == "en" then
+      if redis:hget(result.chat_id_, "lang:megacreed") == "en" then
         text = 'User : '..result.sender_user_id_..' <b>Has been Banned !</b>'
       else
         text = 'کاربر : \n'..get_info(result.sender_user_id_)..'\n <b>بن شد !</b>'
@@ -387,16 +387,16 @@ function vardump(value, depth, key)
   end
   local function setmute_reply(extra, result, success)
     vardump(result)
-    if not redis:sismember('promotes:youseftearbot'..result.chat_id_, result.sender_user_id_) then
-      redis:sadd('muteusers:youseftearbot'..result.chat_id_,result.sender_user_id_)
-      if redis:hget(result.chat_id_, "lang:youseftearbot") == "en" then
+    if not redis:sismember('promotes:megacreed'..result.chat_id_, result.sender_user_id_) then
+      redis:sadd('muteusers:megacreed'..result.chat_id_,result.sender_user_id_)
+      if redis:hget(result.chat_id_, "lang:megacreed") == "en" then
         text = '<b>Successfull !</b>\nUser : '..get_info(result.sender_user_id_)..' <b>Has been Muted !</b>\nStatus : <code>Cant Speak</code>'
       else
         text = '<b>تراکنش موفق !</b>\nکاربر : \n'..get_info(result.sender_user_id_)..'\n <b>به ليست ساکت ها اضافه شد !</b>\nوضعيت : <code>قادر به حرف زدن نميباشد</code>'
       end
       tdcli.sendText(result.chat_id_, 0, 0, 1, nil, text, 1, 'html')
     else
-      if redis:hget(result.chat_id_, "lang:youseftearbot") == "en" then
+      if redis:hget(result.chat_id_, "lang:megacreed") == "en" then
         text = '<b>Error !</b>\n<b>You Can,t Mute Moderators !</b>'
       else
         text = '<b>خطا !</b>\n<b>شما نميتوانيد مدير يا ناظم هارا ساکت بکنيد !</b>'
@@ -407,8 +407,8 @@ function vardump(value, depth, key)
 
   local function demute_reply(extra, result, success)
     --vardump(result)
-    redis:srem('muteusers:youseftearbot'..result.chat_id_,result.sender_user_id_)
-    if redis:hget(result.chat_id_, "lang:youseftearbot") == "en" then
+    redis:srem('muteusers:megacreed'..result.chat_id_,result.sender_user_id_)
+    if redis:hget(result.chat_id_, "lang:megacreed") == "en" then
       text = '<b>Successfull !</b>\nUser : <code>('..result.sender_user_id_..')</code> <b>Has been UnMuted !</b>\nStatus : <code>He Can Speak Now</code>'
     else
       text = '<b>تراکنش موفق !</b>\nکاربر : \n'..get_info(result.sender_user_id_)..'\n <b>از ليست ساکت ها حذف شد !</b>\nوضعيت : <code> اکنون قادر به حرف زدن ميباشد</code>'
@@ -430,10 +430,10 @@ function vardump(value, depth, key)
   function idby_photo(extra,data)
     --vardump(extra)
     --vardump(data)
-    if redis:hget(extra.gid, "lang:youseftearbot") == "en" then
-      text = 'SuperGroup ID : '..string.sub(extra.gid, 5,14)..'\nUser ID : '..extra.uid..'\nChannel : @TearTeam'
+    if redis:hget(extra.gid, "lang:megacreed") == "en" then
+      text = 'SuperGroup ID : '..string.sub(extra.gid, 5,14)..'\nUser ID : '..extra.uid..'\nChannel : @MegaCreedUpdates'
     else
-      text = 'آيدي گروه : '..string.sub(extra.gid, 5,14)..'\nآيدي کاربر : '..extra.uid..'\nکانال ما : @TearTeam'
+      text = 'آيدي گروه : '..string.sub(extra.gid, 5,14)..'\nآيدي کاربر : '..extra.uid..'\nکانال ما : @MegaCreedUpdates'
     end
     tdcli.sendPhoto(extra.gid, 0, extra.id, 1, nil, data.photos_[0].sizes_[1].photo_.persistent_id_, text)
   end
@@ -457,7 +457,7 @@ function vardump(value, depth, key)
     local msg = data.message_
     local chat_id = msg.chat_id_
     local user_id = msg.sender_user_id_
-    local hash = 'bot:banned:youseftearbot'..chat_id
+    local hash = 'bot:banned:megacreed'..chat_id
     local banned = redis:sismember(hash, user_id)
     if banned then
       var = true
@@ -487,41 +487,41 @@ function vardump(value, depth, key)
         if id:match('^(%d+)') then --- msg to group
         -------------
         if msg.content_.ID == "MessageChatAddMembers" or msg.content_.ID == "MessageChatJoinByLink" or msg.content_.ID == "MessageChatDeleteMember" then
-          if redis:get('lock_tgservice:youseftearbot'..msg.chat_id_) then
+          if redis:get('lock_tgservice:megacreed'..msg.chat_id_) then
             tdcli.deleteMessages(chat_id, {[0] = msg.id_})
           end
         end
 if msg.content_photo_ or msg.content_.animation_ or msg.content_.audio_ or msg.content_.document_ or msg.content_.video_ then
           if msg.content_.caption_ and not is_mod(msg) then
-            if redis:get('lock_links:youseftearbot'..chat_id) and msg.content_.caption_:find("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.content_.caption_:find("[Tt].[Mm][Ee]/") and not is_mod(msg) then
+            if redis:get('lock_links:megacreed'..chat_id) and msg.content_.caption_:find("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.content_.caption_:find("[Tt].[Mm][Ee]/") and not is_mod(msg) then
               tdcli.deleteMessages(chat_id, {[0] = msg.id_})
             end
 
-            if redis:get('lock_tag:youseftearbot'..chat_id) and msg.content_.caption_:find("#") and not is_mod(msg) then
+            if redis:get('lock_tag:megacreed'..chat_id) and msg.content_.caption_:find("#") and not is_mod(msg) then
               tdcli.deleteMessages(chat_id, {[0] = msg.id_})
             end
 
-            if redis:get('lock_username:youseftearbot'..chat_id) and msg.content_.caption_:find("@") and not is_mod(msg) then
+            if redis:get('lock_username:megacreed'..chat_id) and msg.content_.caption_:find("@") and not is_mod(msg) then
               tdcli.deleteMessages(chat_id, {[0] = msg.id_})
             end
 
-            if redis:get('lock_persian:youseftearbot'..chat_id) and msg.content_.caption_:find("[\216-\219][\128-\191]") and not is_mod(msg) then
+            if redis:get('lock_persian:megacreed'..chat_id) and msg.content_.caption_:find("[\216-\219][\128-\191]") and not is_mod(msg) then
               tdcli.deleteMessages(chat_id, {[0] = msg.id_})
             end
 
 
             local is_english_msg = msg.content_.caption_:find("[a-z]") or msg.content_.caption_:find("[A-Z]")
-            if redis:get('lock_english:youseftearbot'..chat_id) and is_english_msg and not is_mod(msg) then
+            if redis:get('lock_english:megacreed'..chat_id) and is_english_msg and not is_mod(msg) then
               tdcli.deleteMessages(chat_id, {[0] = msg.id_})
             end
 
             local is_fosh_msg = msg.content_.caption_:find("کير") or msg.content_.caption_:find("کص") or msg.content_.caption_:find("کس") or msg.content_.caption_:find("کون") or msg.content_.caption_:find("85") or msg.content_.caption_:find("جنده") or msg.content_.caption_:find("ننه") or msg.content_.caption_:find("ننت") or msg.content_.caption_:find("مادر") or msg.content_.caption_:find("قهبه") or msg.content_.caption_:find("گايي") or msg.content_.caption_:find("سکس") or msg.content_.caption_:find("kir") or msg.content_.caption_:find("kos") or msg.content_.caption_:find("kon") or msg.content_.caption_:find("nne") or msg.content_.caption_:find("nnt")
-            if redis:get('lock_fosh:youseftearbot'..chat_id) and is_fosh_msg and not is_mod(msg) then
+            if redis:get('lock_fosh:megacreed'..chat_id) and is_fosh_msg and not is_mod(msg) then
               tdcli.deleteMessages(chat_id, {[0] = msg.id_})
             end
 
             local is_emoji_msg = msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or  msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??") or msg.content_.caption_:find("??")
-            if redis:get('lock_emoji:youseftearbot'..chat_id) and is_emoji_msg and not is_mod(msg)  then
+            if redis:get('lock_emoji:megacreed'..chat_id) and is_emoji_msg and not is_mod(msg)  then
               tdcli.deleteMessages(chat_id, {[0] = msg.id_})
             end
           end
@@ -529,106 +529,106 @@ if msg.content_photo_ or msg.content_.animation_ or msg.content_.audio_ or msg.c
 
         -----------
         if msg.content_.game_ then
-          if redis:get('mute_game:youseftearbot'..chat_id) and msg.content_.game_ and not is_mod(msg) then
+          if redis:get('mute_game:megacreed'..chat_id) and msg.content_.game_ and not is_mod(msg) then
             tdcli.deleteMessages(chat_id, {[0] = msg.id_})
           end
         end
         ---------
         if  msg.content_.ID == "MessageContact" and msg.content_.contact_  then
-	 if redis:get('mute_contact:youseftearbot'..chat_id) or redis:get('mute_all:youseftearbot'..msg.chat_id_) then
+	 if redis:get('mute_contact:megacreed'..chat_id) or redis:get('mute_all:megacreed'..msg.chat_id_) then
             if msg.content_.contact_ and not is_mod(msg) then
               tdcli.deleteMessages(chat_id, {[0] = msg.id_})
             end
           end
           if msg.content_.ID == "MessageContact" then
             tdcli.importContacts(msg.content_.contact_.phone_number_, (msg.content_.contact_.first_name_ or '--'), '#bot', msg.content_.contact_.user_id_)
-            redis:set('is:added:youseftearbot'..msg.sender_user_id_, "yes")
+            redis:set('is:added:megacreed'..msg.sender_user_id_, "yes")
             tdcli.sendText(msg.chat_id_, msg.id_, 0, 1, nil, '<b>You Have been added !</b>\n<b>Please Add My Number as it is shown on My profile !</b>\nشما به ليست مخاطبين بنده اضافه شديد\nلطفا شماره بنده را که روي اکانت بنده ظاهر شده است ذخيره بکنيد !', 1, 'html')
           end
         end
       end
     end
     if msg.content_.caption_ then
-	if redis:get('lock_caption:youseftearbot'..chat_id) and not is_mod(msg) or redis:get('mute_all:youseftearbot'..msg.chat_id_) and not is_mod(msg) then
+	if redis:get('lock_caption:megacreed'..chat_id) and not is_mod(msg) or redis:get('mute_all:megacreed'..msg.chat_id_) and not is_mod(msg) then
               tdcli.deleteMessages(chat_id, {[0] = msg.id_})
             end
 	end
 
  if  msg.content_.animation_ then
-        if redis:get('mute_gif:youseftearbot'..chat_id) and not is_mod(msg) or redis:get('mute_all:youseftearbot'..msg.chat_id_) and not is_mod(msg) then
+        if redis:get('mute_gif:megacreed'..chat_id) and not is_mod(msg) or redis:get('mute_all:megacreed'..msg.chat_id_) and not is_mod(msg) then
               tdcli.deleteMessages(chat_id, {[0] = msg.id_})
         end
      end
        
         if msg.content_.photo_ then
-          if redis:get('mute_photo:youseftearbot'..chat_id) and not is_mod(msg) or redis:get('mute_all:youseftearbot'..msg.chat_id_) and not is_mod(msg)  then
+          if redis:get('mute_photo:megacreed'..chat_id) and not is_mod(msg) or redis:get('mute_all:megacreed'..msg.chat_id_) and not is_mod(msg)  then
               tdcli.deleteMessages(chat_id, {[0] = msg.id_})
             end
           end
 
         if msg.content_.audio_ then
-          if redis:get('mute_audio:youseftearbot'..chat_id) and not is_mod(msg) or redis:get('mute_all:youseftearbot'..msg.chat_id_) and not is_mod(msg) then
+          if redis:get('mute_audio:megacreed'..chat_id) and not is_mod(msg) or redis:get('mute_all:megacreed'..msg.chat_id_) and not is_mod(msg) then
               tdcli.deleteMessages(chat_id, {[0] = msg.id_})
             end
           end
         
         if msg.content_.voice_ then
-          if redis:get('mute_voice:youseftearbot'..chat_id) and not is_mod(msg) or redis:get('mute_all:youseftearbot'..msg.chat_id_)  and not is_mod(msg)  then
+          if redis:get('mute_voice:megacreed'..chat_id) and not is_mod(msg) or redis:get('mute_all:megacreed'..msg.chat_id_)  and not is_mod(msg)  then
               tdcli.deleteMessages(chat_id, {[0] = msg.id_})
             end
           end
         if  msg.content_.video_ then
-          if redis:get('mute_video:youseftearbot'..chat_id) and not is_mod(msg) or redis:get('mute_all:youseftearbot'..msg.chat_id_) and not is_mod(msg)  then
+          if redis:get('mute_video:megacreed'..chat_id) and not is_mod(msg) or redis:get('mute_all:megacreed'..msg.chat_id_) and not is_mod(msg)  then
               tdcli.deleteMessages(chat_id, {[0] = msg.id_})
             end
           end
         if  msg.content_.document_ then
-          if redis:get('mute_document:youseftearbot'..chat_id) and not is_mod(msg) or redis:get('mute_all:youseftearbot'..msg.chat_id_) and not is_mod(msg) then
+          if redis:get('mute_document:megacreed'..chat_id) and not is_mod(msg) or redis:get('mute_all:megacreed'..msg.chat_id_) and not is_mod(msg) then
               tdcli.deleteMessages(chat_id, {[0] = msg.id_})
           end
         end
         
 
         if msg.content_.location_ then
-          if redis:get('lock_location:youseftearbot'..chat_id) and not is_mod(msg) or redis:get('mute_all:youseftearbot'..msg.chat_id_) and not is_mod(msg) then
+          if redis:get('lock_location:megacreed'..chat_id) and not is_mod(msg) or redis:get('mute_all:megacreed'..msg.chat_id_) and not is_mod(msg) then
               tdcli.deleteMessages(chat_id, {[0] = msg.id_})
           end
         end
      if msg.forward_info_ then
-	if redis:get('lock_forward:youseftearbot'..chat_id) and not is_mod(msg) or redis:get('mute_all:youseftearbot'..msg.chat_id_) and not is_mod(msg) then
+	if redis:get('lock_forward:megacreed'..chat_id) and not is_mod(msg) or redis:get('mute_all:megacreed'..msg.chat_id_) and not is_mod(msg) then
               tdcli.deleteMessages(chat_id, {[0] = msg.id_})
             end
 	end
 
 if msg.content_.contact_ then
-	if redis:get('mute_contact:youseftearbot'..chat_id) and not is_mod(msg) or redis:get('mute_all:youseftearbot'..msg.chat_id_) and not is_mod(msg) then
+	if redis:get('mute_contact:megacreed'..chat_id) and not is_mod(msg) or redis:get('mute_all:megacreed'..msg.chat_id_) and not is_mod(msg) then
               tdcli.deleteMessages(chat_id, {[0] = msg.id_})
             end
 	end
 
 if msg.content_.location_ then
-	if redis:get('lock_location:youseftearbot'..chat_id) and not is_mod(msg) or redis:get('mute_all:youseftearbot'..msg.chat_id_) and not is_mod(msg) then
+	if redis:get('lock_location:megacreed'..chat_id) and not is_mod(msg) or redis:get('mute_all:megacreed'..msg.chat_id_) and not is_mod(msg) then
               tdcli.deleteMessages(chat_id, {[0] = msg.id_})
             end
 	end
 
 	   if msg.content_.sticker_ then
-	      if redis:get('mute_sticker:youseftearbot'..chat_id) and not is_mod(msg) or redis:get('mute_all:youseftearbot'..msg.chat_id_) and not is_mod(msg) then
+	      if redis:get('mute_sticker:megacreed'..chat_id) and not is_mod(msg) or redis:get('mute_all:megacreed'..msg.chat_id_) and not is_mod(msg) then
                 tdcli.deleteMessages(chat_id, {[0] = msg.id_})
              end
           end
 
     if msg.content_.ID == "MessageText"  then
 if msg.content_.text_ then
-          if redis:get('mute_text:youseftearbot'..chat_id) or redis:get('mute_all:youseftearbot'..msg.chat_id_) then
+          if redis:get('mute_text:megacreed'..chat_id) or redis:get('mute_all:megacreed'..msg.chat_id_) then
             if msg.content_.text_ and not is_mod(msg) then
               tdcli.deleteMessages(chat_id, {[0] = msg.id_})
             end
           end
         end
-      redis:incr("bot:usermsgs:youseftearbot"..msg.chat_id_..":"..msg.sender_user_id_)
-      redis:incr("bot:allgpmsgs:youseftearbot"..msg.chat_id_)
-      redis:incr("bot:allmsgs:youseftearbot")
+      redis:incr("bot:usermsgs:megacreed"..msg.chat_id_..":"..msg.sender_user_id_)
+      redis:incr("bot:allgpmsgs:megacreed"..msg.chat_id_)
+      redis:incr("bot:allmsgs:megacreed")
       if msg.chat_id_ then
         local id = tostring(msg.chat_id_)
         if id:match('-100(%d+)') then
@@ -638,81 +638,81 @@ if msg.content_.text_ then
           if msg.content_.text_:match("^/leave(-%d+)") and is_admin(msg) then
             local txt = {string.match(msg.content_.text_, "^/(leave)(-%d+)$")}
             tdcli.sendText(msg.chat_id_, msg.id_, 0, 1, nil, 'ربات با موفقيت از گروه '..txt[2]..' خارج شد.', 1, 'md')
-            tdcli.sendText(txt[2], 0, 0, 1, nil, 'ربات به دلايلي گروه را ترک ميکند\nبراي اطلاعات بيشتر ميتوانيد با @YousefTear در ارتباط باشيد.\nدر صورت ريپورت بودن ميتوانيد با ربات زير به ما پيام دهيد\n@YousefTear_Bot\n\nChannel> @TearTeam', 1, 'html')
+            tdcli.sendText(txt[2], 0, 0, 1, nil, 'ربات به دلايلي گروه را ترک ميکند\nبراي اطلاعات بيشتر ميتوانيد با @Mr_creed در ارتباط باشيد.\nدر صورت ريپورت بودن ميتوانيد با ربات زير به ما پيام دهيد\n@YousefTear_Bot\n\nChannel> @MegaCreedUpdates', 1, 'html')
             tdcli.changeChatMemberStatus(txt[2], tonumber(239726711), 'Left')
           end
           if msg.content_.text_:match("^[Aa]dd$") and is_admin(msg) then
-            if  redis:sismember('groups:youseftearbot',chat_id) then
+            if  redis:sismember('groups:megacreed',chat_id) then
               return tdcli.sendText(chat_id, msg.id_, 0, 1, nil, '*Group is Already added !*', 1, 'md')
             end
             tdcli.sendText(-1001105433602, 0, 0, 1, nil, '<b>New Group Has Been Added By :</b> '..get_info(msg.sender_user_id_)..'', 1, 'html')
-            redis:sadd('groups:youseftearbot',chat_id)
-			redis:setex("bot:charge:youseftearbot"..chat_id,2592000,true)
-            redis:set('floodtime:youseftearbot'..chat_id, tonumber(3))
-            redis:set("bot:enable:youseftearbot"..msg.chat_id_,true)
-            redis:set('floodnum:youseftearbot'..chat_id, tonumber(5))
-            redis:set('maxspam:youseftearbot'..chat_id, tonumber(2000))
-            redis:set('owners:youseftearbot'..chat_id, msg.sender_user_id_)
-            redis:sadd('owners:youseftearbot'..msg.sender_user_id_,msg.chat_id_)
+            redis:sadd('groups:megacreed',chat_id)
+			redis:setex("bot:charge:megacreed"..chat_id,2592000,true)
+            redis:set('floodtime:megacreed'..chat_id, tonumber(3))
+            redis:set("bot:enable:megacreed"..msg.chat_id_,true)
+            redis:set('floodnum:megacreed'..chat_id, tonumber(5))
+            redis:set('maxspam:megacreed'..chat_id, tonumber(2000))
+            redis:set('owners:megacreed'..chat_id, msg.sender_user_id_)
+            redis:sadd('owners:megacreed'..msg.sender_user_id_,msg.chat_id_)
             tdcli.sendText(chat_id, msg.id_, 0, 1, nil, '<b>Group Has Been Added By</b> : '..get_info(msg.sender_user_id_)..' <b>And Adder Has been set as Owner !</b>', 1, 'html')
           end
           -------------------------------------------------------------------------------------------------------------------------------------------
           if msg.content_.text_:match("^[Rr]em$") and is_admin(msg) then
-            if not redis:sismember('groups:youseftearbot',chat_id) then
+            if not redis:sismember('groups:megacreed',chat_id) then
               return tdcli.sendText(chat_id, msg.id_, 0, 1, nil, '*Group is not added !*', 1, 'md')
             end
-	     redis:srem('groups:youseftearbot',chat_id)
+	     redis:srem('groups:megacreed',chat_id)
             tdcli.sendText(chat_id, msg.id_, 0, 1, nil, '<b>Group Has Been Removed By</b> : '..get_info(msg.sender_user_id_)..'', 1, 'html')
-            redis:del('owners:youseftearbot'..chat_id)
-            redis:srem('owners:youseftearbot'..msg.sender_user_id_,msg.chat_id_)
-            redis:del('promotes:youseftearbot'..chat_id)
-            redis:del('muteusers:youseftearbot'..chat_id)
-            redis:del('mute_user:youseftearbot'..chat_id)
-            redis:set('floodtime:youseftearbot'..chat_id, tonumber(3))
-            redis:set('floodnum:youseftearbot'..chat_id, tonumber(5))
-            redis:set('maxspam:youseftearbot'..chat_id, tonumber(2000))
-            redis:del('lock_username:youseftearbot'..chat_id)
-            redis:del('lock_links:youseftearbot'..chat_id)
-            redis:del('lock_bots:youseftearbot'..chat_id)
-            redis:del('lock_tag:youseftearbot'..chat_id)
-            redis:del('lock_forward:youseftearbot'..chat_id)
-            redis:del('lock_persian:youseftearbot'..chat_id)
-            redis:del('lock_english:youseftearbot'..chat_id)
-            redis:del('lock_fosh:youseftearbot'..chat_id)
-            redis:del('lock_location:youseftearbot'..chat_id)
-            redis:del('lock_edit:youseftearbot'..chat_id)
-            redis:del('lock_caption:youseftearbot'..chat_id)
-            redis:del('lock_emoji:youseftearbot'..chat_id)
-            redis:del('lock_inline:youseftearbot'..chat_id)
-            redis:del('lock_reply:youseftearbot'..chat_id)
-            redis:del('lock_tgservice:youseftearbot'..chat_id)
-            redis:del('lock_spam:youseftearbot'..chat_id)
-            redis:del('lock_flood:youseftearbot'..chat_id)
-            redis:del('mute_all:youseftearbot'..chat_id)
-            redis:del('mute_text:youseftearbot'..chat_id)
-            redis:del('mute_game:youseftearbot'..chat_id)
-            redis:del('mute_sticker:youseftearbot'..chat_id)
-            redis:del('mute_contact:youseftearbot'..chat_id)
-            redis:del('mute_gif:youseftearbot'..chat_id)
-            redis:del('mute_voice:youseftearbot'..chat_id)
-            redis:del('mute_weblink:youseftearbot'..chat_id)
-            redis:del('mute_markdown:youseftearbot'..chat_id)
-            redis:del('mute_keyboard:youseftearbot'..chat_id)
-            redis:del('mute_photo:youseftearbot'..chat_id)
-            redis:del('mute_audio:youseftearbot'..chat_id)
-            redis:del('mute_video:youseftearbot'..chat_id)
-            redis:del('mute_document:youseftearbot'..chat_id)
+            redis:del('owners:megacreed'..chat_id)
+            redis:srem('owners:megacreed'..msg.sender_user_id_,msg.chat_id_)
+            redis:del('promotes:megacreed'..chat_id)
+            redis:del('muteusers:megacreed'..chat_id)
+            redis:del('mute_user:megacreed'..chat_id)
+            redis:set('floodtime:megacreed'..chat_id, tonumber(3))
+            redis:set('floodnum:megacreed'..chat_id, tonumber(5))
+            redis:set('maxspam:megacreed'..chat_id, tonumber(2000))
+            redis:del('lock_username:megacreed'..chat_id)
+            redis:del('lock_links:megacreed'..chat_id)
+            redis:del('lock_bots:megacreed'..chat_id)
+            redis:del('lock_tag:megacreed'..chat_id)
+            redis:del('lock_forward:megacreed'..chat_id)
+            redis:del('lock_persian:megacreed'..chat_id)
+            redis:del('lock_english:megacreed'..chat_id)
+            redis:del('lock_fosh:megacreed'..chat_id)
+            redis:del('lock_location:megacreed'..chat_id)
+            redis:del('lock_edit:megacreed'..chat_id)
+            redis:del('lock_caption:megacreed'..chat_id)
+            redis:del('lock_emoji:megacreed'..chat_id)
+            redis:del('lock_inline:megacreed'..chat_id)
+            redis:del('lock_reply:megacreed'..chat_id)
+            redis:del('lock_tgservice:megacreed'..chat_id)
+            redis:del('lock_spam:megacreed'..chat_id)
+            redis:del('lock_flood:megacreed'..chat_id)
+            redis:del('mute_all:megacreed'..chat_id)
+            redis:del('mute_text:megacreed'..chat_id)
+            redis:del('mute_game:megacreed'..chat_id)
+            redis:del('mute_sticker:megacreed'..chat_id)
+            redis:del('mute_contact:megacreed'..chat_id)
+            redis:del('mute_gif:megacreed'..chat_id)
+            redis:del('mute_voice:megacreed'..chat_id)
+            redis:del('mute_weblink:megacreed'..chat_id)
+            redis:del('mute_markdown:megacreed'..chat_id)
+            redis:del('mute_keyboard:megacreed'..chat_id)
+            redis:del('mute_photo:megacreed'..chat_id)
+            redis:del('mute_audio:megacreed'..chat_id)
+            redis:del('mute_video:megacreed'..chat_id)
+            redis:del('mute_document:megacreed'..chat_id)
           end
-          if not redis:sismember("bot:groupss:youseftearbot",msg.chat_id_) then
-            redis:sadd("bot:groupss:youseftearbot",msg.chat_id_)
+          if not redis:sismember("bot:groupss:megacreed",msg.chat_id_) then
+            redis:sadd("bot:groupss:megacreed",msg.chat_id_)
           end
 
-          if not redis:get("bot:charge:youseftearbot"..msg.chat_id_) then
-	redis:set('bot:disable:youseftearbot'..msg.chat_id_, true)
-            if redis:get("bot:enable:youseftearbot"..msg.chat_id_) then
-              redis:del("bot:enable:youseftearbot"..msg.chat_id_)
+          if not redis:get("bot:charge:megacreed"..msg.chat_id_) then
+	redis:set('bot:disable:megacreed'..msg.chat_id_, true)
+            if redis:get("bot:enable:megacreed"..msg.chat_id_) then
+              redis:del("bot:enable:megacreed"..msg.chat_id_)
                 tdcli.sendText(-1001105433602, 0, 0, 1, nil, "شارژ اين گروه به اتمام رسيد \nLink : "..(redis:get("bot:group:link"..msg.chat_id_) or "تنظيم نشده").."\nID : "..msg.chat_id_..'\n\nدر صورتي که ميخواهيد ربات اين گروه را ترک کند از دستور زير استفاده کنيد\n\n/leave'..msg.chat_id_..'\nبراي جوين دادن توي اين گروه ميتوني از دستور زير استفاده کني:\n/join'..msg.chat_id_..'\n_________________\nدر صورتي که ميخواهيد گروه رو دوباره شارژ کنيد ميتوانيد از کد هاي زير استفاده کنيد...\n\n<code>براي شارژ 1 ماهه:</code>\n/plan1'..msg.chat_id_..'\n\n<code>براي شارژ 3 ماهه:</code>\n/plan2'..msg.chat_id_..'\n\n<code>براي شارژ نامحدود:</code>\n/plan3'..msg.chat_id_, 1, 'html')
-              tdcli.sendText(msg.chat_id_, 0,0, 1,nil, 'شارژ اين گروه به اتمام رسيده است !\nربات تا زمانيکه گروه شارژ نشود کار نخواهد کرد\nبراي شارژ کردن گروه خود به @YousefTear مراجعه نماييد !\nکانال ما > @TearTeam', 1, 'html')
+              tdcli.sendText(msg.chat_id_, 0,0, 1,nil, 'شارژ اين گروه به اتمام رسيده است !\nربات تا زمانيکه گروه شارژ نشود کار نخواهد کرد\nبراي شارژ کردن گروه خود به @Mr_creed مراجعه نماييد !\nکانال ما > @MegaCreedUpdates', 1, 'html')
             end
           end
 
@@ -720,8 +720,8 @@ if msg.content_.text_ then
 
         end
         if id:match('^(%d+)') then
-          if not redis:get('user:limits:youseftearbot'..msg.sender_user_id_) then
-            redis:set('user:limits:youseftearbot'..msg.sender_user_id_, 3)
+          if not redis:get('user:limits:megacreed'..msg.sender_user_id_) then
+            redis:set('user:limits:megacreed'..msg.sender_user_id_, 3)
           end
           --------------------------------------------------------
           ------------------ if msg to PV bot --------------------
@@ -739,10 +739,10 @@ if msg.content_.text_ then
             local reply = msg.reply_to_message_id_
             if not matches[2] and reply == 0 then
               local function dl_photo(arg,data)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
-                  text = 'Bot ID : '..msg.chat_id_..'\nYour ID : '..msg.sender_user_id_..'\nChannel : @TearTeam'
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
+                  text = 'Bot ID : '..msg.chat_id_..'\nYour ID : '..msg.sender_user_id_..'\nChannel : @MegaCreedUpdates'
                 else
-                  text = 'آيدي ربات : '..msg.chat_id_..'\nآيدي کاربر : '..msg.sender_user_id_..'\nکانال ما : @TearTeam'
+                  text = 'آيدي ربات : '..msg.chat_id_..'\nآيدي کاربر : '..msg.sender_user_id_..'\nکانال ما : @MegaCreedUpdates'
                 end
                 tdcli.sendPhoto(msg.chat_id_, msg.id_, 0, 1, nil, data.photos_[0].sizes_[1].photo_.persistent_id_, text)
               end
@@ -754,18 +754,18 @@ if msg.content_.text_ then
           end
 
 
-          if not redis:sismember("bot:userss:youseftearbot",msg.chat_id_) then
-            redis:set('user:limits:youseftearbot'..msg.sender_user_id_, 3)
+          if not redis:sismember("bot:userss:megacreed",msg.chat_id_) then
+            redis:set('user:limits:megacreed'..msg.sender_user_id_, 3)
             local txthelppv = [[
 به پیوی من خوش آمدید دوست عزیز !
 
 این یک ربات هوشمند لینک پاک کن و فحش پاک کن و ... میباشد که ماهانه به گروه ها با هزینه ی مناسب اجاره داده میشود تا در مدیریت گروه ها به شما کمک نماید !
-برای خرید به ایدی : @YousefTear پیام بدهید !
+برای خرید به ایدی : @Mr_creed پیام بدهید !
 
-جهت دیدن آپدیت ها و مشخصات دیگر در کانال @TearTeam عضو شوید تا آگاه بمانید !
+جهت دیدن آپدیت ها و مشخصات دیگر در کانال @MegaCreedUpdates عضو شوید تا آگاه بمانید !
             ]]
             tdcli.sendText(msg.chat_id_, msg.id_, 0, 1, nil, txthelppv , 1, "md")
-            redis:sadd("bot:userss:youseftearbot" , msg.chat_id_)
+            redis:sadd("bot:userss:megacreed" , msg.chat_id_)
           end 
 
           ---------------------------------------------------------
@@ -780,27 +780,27 @@ if msg.content_.text_ then
 
 
 
-      if msg and redis:sismember('bot:banned:youseftearbot'..msg.chat_id_, msg.sender_user_id_) then
+      if msg and redis:sismember('bot:banned:megacreed'..msg.chat_id_, msg.sender_user_id_) then
 print("Baned user")
         chat_kick(msg.chat_id_, msg.sender_user_id_)
       end
 
-      if msg and redis:sismember('bot:gbanned:youseftearbot', msg.sender_user_id_) then
+      if msg and redis:sismember('bot:gbanned:megacreed', msg.sender_user_id_) then
 print("Gbaned user")
         chat_kick(msg.chat_id_, msg.sender_user_id_)
       end
 
 
       if msg.content_.text_:match("^report") and msg.reply_to_message_id_ then
-        tdcli.sendText(chat_id, msg.id_, 0, 1, nil, '*Done !*\n*User Report Has been Sent to :* '..redis:get('owners:youseftearbot'..msg.chat_id_)..'', 1, 'md')
-        tdcli.sendText(redis:get('owners:youseftearbot'..msg.chat_id_), 0, 0, 1, nil, '*Reporter :* '..msg.sender_user_id_..'\n\nSended Message :', 1, 'md')
-        tdcli.forwardMessages(redis:get('owners:youseftearbot'..msg.chat_id_), chat_id,{[0] = reply_id}, 0)
+        tdcli.sendText(chat_id, msg.id_, 0, 1, nil, '*Done !*\n*User Report Has been Sent to :* '..redis:get('owners:megacreed'..msg.chat_id_)..'', 1, 'md')
+        tdcli.sendText(redis:get('owners:megacreed'..msg.chat_id_), 0, 0, 1, nil, '*Reporter :* '..msg.sender_user_id_..'\n\nSended Message :', 1, 'md')
+        tdcli.forwardMessages(redis:get('owners:megacreed'..msg.chat_id_), chat_id,{[0] = reply_id}, 0)
       end
 
       if msg.content_.text_:match("^stats$") and is_admin(msg) then
-        local gps = redis:scard("bot:groupss:youseftearbot")
-        local users = redis:scard("bot:userss:youseftearbot")
-        local allmgs = redis:get("bot:allmsgs:youseftearbot")
+        local gps = redis:scard("bot:groupss:megacreed")
+        local users = redis:scard("bot:userss:megacreed")
+        local allmgs = redis:get("bot:allmsgs:megacreed")
         tdcli.sendText(chat_id, msg.id_, 0, 1, nil, '*Stats*\n\n_> Groups: _ `'..gps..'`\n_> Users: _ `'..users..'`\n_> All msgs: _ `'..allmgs..'`', 1, 'md')
       end
       ---------------------------------------------------------------------------------------------------------------------------------
@@ -812,7 +812,7 @@ print("Gbaned user")
         local gid = tonumber(msg.chat_id_)
         local uid = matchees[2]
         local function getid_photo(extra, result, success)
-          tdcli.sendPhoto(result.chat_id_, result.id_, 0, 1, nil, result.photos_[0].sizes_[1].photo_.persistent_id_, 'Here ID : '..result.chat_id_..'\nHis ID : '..result.sender_user_id_..'\nChannel : @TearTeam')
+          tdcli.sendPhoto(result.chat_id_, result.id_, 0, 1, nil, result.photos_[0].sizes_[1].photo_.persistent_id_, 'Here ID : '..result.chat_id_..'\nHis ID : '..result.sender_user_id_..'\nChannel : @MegaCreedUpdates')
         end
         resolve_username(matchees[2], getid_photo)
       end
@@ -822,14 +822,14 @@ print("Gbaned user")
       end
 
       if msg.content_.text_:match("^bcgp (.*)") and is_sudo(msg) then
-        for k,v in pairs(redis:smembers("bot:groupss:youseftearbot")) do
+        for k,v in pairs(redis:smembers("bot:groupss:megacreed")) do
           tdcli.sendText(v, 0, 0, 1, nil, msg.content_.text_:match("^bcgp (.*)"), 1 , 'html')
         end
         return
       end
 
       if msg.content_.text_:match("^bcuser (.*)") and is_sudo(msg) then
-        for k,v in pairs(redis:smembers("bot:userss:youseftearbot")) do
+        for k,v in pairs(redis:smembers("bot:userss:megacreed")) do
           tdcli.sendText(v, 0, 0, 1, nil, msg.content_.text_:match("^bcuser (.*)"), 1 , 'html')
         end
         return
@@ -841,7 +841,7 @@ print("Gbaned user")
       if not is_added(msg) then
 	if redis:get('autoleave') == "on" then
 if msg and not is_admin(msg) then
-          if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+          if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
             text = '*Bot Leaves This Group !*\n*Reason :* `This is Not one of my Groups !`'
           else
             text = '*ربات اين گروه را ترک ميکند !*\n*علت :* `اين گروه جزو گروه هاي ربات نميباشد !`'
@@ -860,29 +860,29 @@ end
           local a = {string.match(msg.content_.text_, "^(charge) (%d+)$")}
           tdcli.sendText(msg.chat_id_, msg.id_, 0 ,1 , nil, '*Group Charged for* : `'..a[2]..'` *Days !*', 1, 'md')
           local time = a[2] * day
-          redis:setex("bot:charge:youseftearbot"..msg.chat_id_,time,true)
-          redis:set("bot:enable:youseftearbot"..msg.chat_id_,true)
-	   redis:del('bot:disable:youseftearbot'..msg.chat_id_)
+          redis:setex("bot:charge:megacreed"..msg.chat_id_,time,true)
+          redis:set("bot:enable:megacreed"..msg.chat_id_,true)
+	   redis:del('bot:disable:megacreed'..msg.chat_id_)
         end
 	 ---------------------------------------------------------------------------------------------
 	if msg.content_.text_:match("^chargesec (%d+)$") and is_admin(msg) then
-	   redis:del('bot:disable:youseftearbot'..msg.chat_id_)
+	   redis:del('bot:disable:megacreed'..msg.chat_id_)
           local day = tonumber(1)
           local a = {string.match(msg.content_.text_, "^(chargesec) (%d+)$")}
           tdcli.sendText(msg.chat_id_, msg.id_, 0 ,1 , nil, '*Group Charged for* : `'..a[2]..'` *Seconds !*', 1, 'md')
           local time = a[2] * day
-          redis:setex("bot:charge:youseftearbot"..msg.chat_id_,time,true)
-          redis:set("bot:enable:youseftearbot"..msg.chat_id_,true)
+          redis:setex("bot:charge:megacreed"..msg.chat_id_,time,true)
+          redis:set("bot:enable:megacreed"..msg.chat_id_,true)
         end
         ---------------------------------------------------------------------------------------------
         if msg.content_.text_:match("^charge stats") and is_mod(msg) then
-          local ex = redis:ttl("bot:charge:youseftearbot"..msg.chat_id_)
+          local ex = redis:ttl("bot:charge:megacreed"..msg.chat_id_)
           if ex == -1 then
             tdcli.sendText(msg.chat_id_, msg.id_, 0 ,1 , nil ,'*Unlimited !*', 1, 'md')
           else
             local day = tonumber(86400)
             local d = math.floor(ex / day ) + 1
-            if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+            if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
               text = "*After* `"..d.."` *Days Later Group Will be Expired !*"
             else
               text = "* شارژ اين گروه بعد از * `"..d.."` *روز ديگر به اتمام ميرسد !*"
@@ -893,9 +893,9 @@ end
         ---------------------------------------------------------------------------------------------
         if msg.content_.text_:match("^charge stats (%d+)") and is_admin(msg) then
           local txt = {string.match(msg.content_.text_, "^(charge stats) (%d+)$")}
-          local ex = redis:ttl("bot:charge:youseftearbot"..txt[2])
+          local ex = redis:ttl("bot:charge:megacreed"..txt[2])
           if ex == -1 then
-            if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+            if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
               text = '*Unlimited !*'
             else
               text = '*نامحدود !*'
@@ -904,7 +904,7 @@ end
           else
             local day = tonumber(86400)
             local d = math.floor(ex / day ) + 1
-            if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+            if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
               text = "*After* `"..d.."` *Days Later Group Will be Expired !*"
             else
               text = "* شارژ اين گروه بعد از * `"..d.."` *روز ديگر به اتمام ميرسد !*"
@@ -920,39 +920,39 @@ end
           if msg.content_.text_:match('^/plan1(-%d+)') and is_admin(msg) then
             local txt = {string.match(msg.content_.text_, "^/(plan1)(-%d+)$")}
             local timeplan1 = 2592000
-            redis:setex("bot:charge:youseftearbot"..txt[2],timeplan1,true)
-	     redis:del('bot:disable:youseftearbot'..txt[2])
+            redis:setex("bot:charge:megacreed"..txt[2],timeplan1,true)
+	     redis:del('bot:disable:megacreed'..txt[2])
             tdcli.sendText(msg.chat_id_, msg.id_, 0, 1,nil, 'پلن 1 با موفقيت براي گروه '..txt[2]..' فعال شد\nاين گروه تا 30 روز ديگر اعتبار دارد! ( 1 ماه )', 1, 'md')
             tdcli.sendText(txt[2], 0, 0, 1,nil, 'ربات با موفقيت فعال شد و تا 30 روز ديگر اعتبار دارد!', 1, 'md')
             for k,v in pairs(sudo_users) do
               tdcli.sendText(v, 0, 0,1,nil, "*User :* "..get_info(msg.sender_user_id_).." *Used a New Plan For a Group !*\n*Group id :* "..txt[2].."" , 1, 'md')
             end
-            redis:set("bot:enable:youseftearbot"..txt[2],true)
+            redis:set("bot:enable:megacreed"..txt[2],true)
           end
           ---------------------------------------------------------------------------------------------
           if msg.content_.text_:match('^/plan2(-%d+)') and is_admin(msg) then
             local txt = {string.match(msg.content_.text_, "^/(plan2)(-%d+)$")}
             local timeplan2 = 7776000
-	     redis:del('bot:disable:youseftearbot'..txt[2])
-            redis:setex("bot:charge:youseftearbot"..txt[2],timeplan2,true)
+	     redis:del('bot:disable:megacreed'..txt[2])
+            redis:setex("bot:charge:megacreed"..txt[2],timeplan2,true)
             tdcli.sendText(msg.chat_id_, msg.id_,0,1,nil, 'پلن 2 با موفقيت براي گروه '..txt[2]..' فعال شد\nاين گروه تا 90 روز ديگر اعتبار دارد! ( 3 ماه )', 1, 'md')
             tdcli.sendText(txt[2], 0, 0, 1,nil, 'ربات با موفقيت فعال شد و تا 90 روز ديگر اعتبار دارد!', 1, 'md')
             for k,v in pairs(sudo_users) do
               tdcli.sendText(v, 0, 0,1,nil, "*User :* "..get_info(msg.sender_user_id_).." *Used a New Plan For a Group !*\n*Group id :* "..txt[2].."" , 1, 'md')
             end
-            redis:set("bot:enable:youseftearbot"..txt[2],true)
+            redis:set("bot:enable:megacreed"..txt[2],true)
           end
           ---------------------------------------------------------------------------------------------
           if msg.content_.text_:match('^/plan3(-%d+)') and is_admin(msg) then
             local txt = {string.match(msg.content_.text_, "^/(plan3)(-%d+)$")}
-            redis:set("bot:charge:youseftearbot"..txt[2],true)
-	     redis:del('bot:disable:youseftearbot'..txt[2])
+            redis:set("bot:charge:megacreed"..txt[2],true)
+	     redis:del('bot:disable:megacreed'..txt[2])
             tdcli.sendText(msg.chat_id_, msg.id_,0, 1,nil, 'پلن 3 با موفقيت براي گروه '..txt[2]..' فعال شد\nاين گروه به صورت نامحدود شارژ شد!', 1, 'md')
             tdcli.sendText(txt[2], 0,0, 1,nil,'ربات بدون محدوديت فعال شد ! ( نامحدود )', 1, 'md')
             for k,v in pairs(sudo_users) do
               tdcli.sendText(v, 0, 0,1,nil, "*User :* "..get_info(msg.sender_user_id_).." *Used a New Plan For a Group !*\n*Group id :* "..txt[2].."" , 1, 'md')
             end
-            redis:set("bot:enable:youseftearbot"..txt[2],true)
+            redis:set("bot:enable:megacreed"..txt[2],true)
           end
 
           if msg.content_.text_:match('/join(-%d+)') and is_admin(msg) then
@@ -989,37 +989,37 @@ end
         -------------[[_______________________________________________________________________]]------------------
 
         ---------------------------------------------------------------------------------------------------------
-		if redis:get('bot:disable:youseftearbot'..msg.chat_id_) then
+		if redis:get('bot:disable:megacreed'..msg.chat_id_) then
 	      return
 		else
-        if not redis:hget(msg.chat_id_, "lang:youseftearbot") then
-          redis:hset(msg.chat_id_,"lang:youseftearbot", "en")
+        if not redis:hget(msg.chat_id_, "lang:megacreed") then
+          redis:hset(msg.chat_id_,"lang:megacreed", "en")
         end
         --[[if redis:hget('gp:cmd'..msg.chat_id_) == 0 then
           redis:hset('gp:cmd'..msg.chat_id_, "mod")
           end]]
           if msg.content_.text_:match("^[Ss]etlang fa$") and is_owner(msg) then
-            if redis:hget(msg.chat_id_, "lang:youseftearbot") == "fa" then
+            if redis:hget(msg.chat_id_, "lang:megacreed") == "fa" then
               text = "زبان گروه از قبل فارسي بود !"
             else
               text = "*Group Language Has been Set to :* `Farsi ( Persian )`"
             end
-            redis:hset(msg.chat_id_,"lang:youseftearbot", "fa")
+            redis:hset(msg.chat_id_,"lang:megacreed", "fa")
             tdcli.sendText(msg.chat_id_, msg.id_, 0, 1, nil, text, 1 , "md")
           end
 
           if msg.content_.text_:match("^[Ss]etlang en$") and is_owner(msg) then
-            if redis:hget(msg.chat_id_, "lang:youseftearbot") == "fa" then
+            if redis:hget(msg.chat_id_, "lang:megacreed") == "fa" then
               text = "*زبان گروه تغيير کرد به :* `انگليسي`"
             else
               text = "*Group Language is Already English !*"
             end
-            redis:hset(msg.chat_id_,"lang:youseftearbot", "en")
+            redis:hset(msg.chat_id_,"lang:megacreed", "en")
             tdcli.sendText(msg.chat_id_, msg.id_, 0, 1, nil, text, 1 , "md")
           end
 
           if msg.content_.text_:match("^lang$") and is_mod(msg) then
-            if redis:hget(msg.chat_id_ , "lang:youseftearbot") == "fa" then
+            if redis:hget(msg.chat_id_ , "lang:megacreed") == "fa" then
               text = "زبان گروه فارسي ميباشد !"
             else
               text = "*Group Language is English !*"
@@ -1031,7 +1031,7 @@ end
             local matches = {string.match(msg.content_.text_, "^([Ss]etcmd) (.*)$")}
             if matches[2] == "owner" then
               redis:set("gp:cmd"..msg.chat_id_, "owner")
-              if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                 text = "*Commands promotion Set Only For :* `Owner`"
               else
                 text = "*دسترسي به دستورات تنظيم شد براي :* `مدير`"
@@ -1039,7 +1039,7 @@ end
               tdcli.sendText(msg.chat_id_, msg.id_, 0, 1, nil, text, 1, "md")
             elseif matches[2] == "mod" then
               redis:set("gp:cmd"..msg.chat_id_, "mod")
-              if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                 text = "*Commands promotion Set Only For :* `Moderators`"
               else
                 text = "*دسترسي به دستورات تنظيم شد براي :* `ناظم ها`"
@@ -1047,7 +1047,7 @@ end
               tdcli.sendText(msg.chat_id_, msg.id_, 0, 1, nil, text, 1, "md")
             elseif matches[2] == "all" then
               redis:set("gp:cmd"..msg.chat_id_, "all")
-              if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                 text = "*Commands promotion Set Only For :* `All Members	e`"
               else
                 text = "*دسترسي به دستورات تنظيم شد براي :* `همه`"
@@ -1057,19 +1057,19 @@ end
           end
           --------------------------------------------------------------------------------------------------------
           if msg.content_.text_:match("^[Mm][Ee]$") then
-            local allgpmsgs = redis:get("bot:allgpmsgs:youseftearbot"..msg.chat_id_)
-            local usermsgs = redis:get("bot:usermsgs:youseftearbot"..msg.chat_id_..":"..msg.sender_user_id_)
+            local allgpmsgs = redis:get("bot:allgpmsgs:megacreed"..msg.chat_id_)
+            local usermsgs = redis:get("bot:usermsgs:megacreed"..msg.chat_id_..":"..msg.sender_user_id_)
             local percent =  tonumber((usermsgs / allgpmsgs) * 100)
             local top = 1
-            for k,v in pairs(redis:hkeys("bot:usermsgs:youseftearbot"..msg.chat_id_..":*")) do
-              if redis:get("bot:usermsgs:youseftearbot"..msg.chat_id_":"..v) > top then
-                top = redis:get("bot:usermsgs:youseftearbot"..msg.chat_id_":"..v)
+            for k,v in pairs(redis:hkeys("bot:usermsgs:megacreed"..msg.chat_id_..":*")) do
+              if redis:get("bot:usermsgs:megacreed"..msg.chat_id_":"..v) > top then
+                top = redis:get("bot:usermsgs:megacreed"..msg.chat_id_":"..v)
               end
             end
-            if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
-              text = "<b>Your Messages :</b> <code>"..usermsgs.."</code>\n<b>Groups Messages :</b> <code>"..allgpmsgs.."</code>\n<b>Your Message Percent :</b> <code>%"..string.sub(percent, 1, 4).."</code>\n<b>Your Info : </b>"..get_info(msg.sender_user_id_).."\n\nChannel : @TearTeam"
+            if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
+              text = "<b>Your Messages :</b> <code>"..usermsgs.."</code>\n<b>Groups Messages :</b> <code>"..allgpmsgs.."</code>\n<b>Your Message Percent :</b> <code>%"..string.sub(percent, 1, 4).."</code>\n<b>Your Info : </b>"..get_info(msg.sender_user_id_).."\n\nChannel : @MegaCreedUpdates"
             else
-              text = "<b>تعداد پيام هاي شما :</b> <code>"..usermsgs.."</code>\n<b>تعداد پيام هاي گروه :</b> <code>"..allgpmsgs.."</code>\n<b>درصد پيام هاي شما :</b> <code>%"..string.sub(percent, 1, 4).."</code>\n<b>اطلاعات شما : </b>\n"..get_info(msg.sender_user_id_).."\n\nکانال ما : @TearTeam"
+              text = "<b>تعداد پيام هاي شما :</b> <code>"..usermsgs.."</code>\n<b>تعداد پيام هاي گروه :</b> <code>"..allgpmsgs.."</code>\n<b>درصد پيام هاي شما :</b> <code>%"..string.sub(percent, 1, 4).."</code>\n<b>اطلاعات شما : </b>\n"..get_info(msg.sender_user_id_).."\n\nکانال ما : @MegaCreedUpdates"
             end
             tdcli.sendText(msg.chat_id_, msg.id_, 0, 1, nil, text, 1, "html")
           end
@@ -1078,48 +1078,48 @@ end
           if msg.content_.text_  then
 
             local is_link = msg.content_.text_:find("[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/") or msg.content_.text_:find("[Tt].[Mm][Ee]/")
-            if redis:get('lock_links:youseftearbot'..chat_id) and is_link and not is_mod(msg) then
+            if redis:get('lock_links:megacreed'..chat_id) and is_link and not is_mod(msg) then
               tdcli.deleteMessages(chat_id, {[0] = msg.id_})
             end
-            if redis:get('lock_tag:youseftearbot'..chat_id) and msg.content_.text_:find("#") and not is_mod(msg) then
-              tdcli.deleteMessages(chat_id, {[0] = msg.id_})
-            end
-
-            if redis:get('lock_username:youseftearbot'..chat_id) and msg.content_.text_:find("@") and not is_mod(msg) then
+            if redis:get('lock_tag:megacreed'..chat_id) and msg.content_.text_:find("#") and not is_mod(msg) then
               tdcli.deleteMessages(chat_id, {[0] = msg.id_})
             end
 
-            if redis:get('lock_persian:youseftearbot'..chat_id) and msg.content_.text_:find("[\216-\219][\128-\191]") and not is_mod(msg) then
+            if redis:get('lock_username:megacreed'..chat_id) and msg.content_.text_:find("@") and not is_mod(msg) then
+              tdcli.deleteMessages(chat_id, {[0] = msg.id_})
+            end
+
+            if redis:get('lock_persian:megacreed'..chat_id) and msg.content_.text_:find("[\216-\219][\128-\191]") and not is_mod(msg) then
               tdcli.deleteMessages(chat_id, {[0] = msg.id_})
             end
 
 
 
             local is_english_msg = msg.content_.text_:find("[a-z]") or msg.content_.text_:find("[A-Z]")
-            if redis:get('lock_english:youseftearbot'..chat_id) and is_english_msg and not is_mod(msg) then
+            if redis:get('lock_english:megacreed'..chat_id) and is_english_msg and not is_mod(msg) then
               tdcli.deleteMessages(chat_id, {[0] = msg.id_})
             end
 
             local is_fosh_msg = msg.content_.text_:find("کير") or msg.content_.text_:find("کص") or msg.content_.text_:find("کس") or msg.content_.text_:find("کون") or msg.content_.text_:find("85") or msg.content_.text_:find("جنده") or msg.content_.text_:find("ننه") or msg.content_.text_:find("ننت") or msg.content_.text_:find("مادر") or msg.content_.text_:find("قهبه") or msg.content_.text_:find("گايي") or msg.content_.text_:find("سکس") or msg.content_.text_:find("kir") or msg.content_.text_:find("kos") or msg.content_.text_:find("kon") or msg.content_.text_:find("nne") or msg.content_.text_:find("nnt")
-            if redis:get('lock_fosh:youseftearbot'..chat_id) and is_fosh_msg and not is_mod(msg) then
+            if redis:get('lock_fosh:megacreed'..chat_id) and is_fosh_msg and not is_mod(msg) then
               tdcli.deleteMessages(chat_id, {[0] = msg.id_})
             end
 
             local is_emoji_msg = msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or  msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??")
-            if redis:get('lock_emoji:youseftearbot'..chat_id) and is_emoji_msg and not is_mod(msg)  then
+            if redis:get('lock_emoji:megacreed'..chat_id) and is_emoji_msg and not is_mod(msg)  then
               tdcli.deleteMessages(chat_id, {[0] = msg.id_})
             end
 
 
-            if redis:get('lock_inline:youseftearbot'..chat_id) and  msg.via_bot_user_id_ ~= 0 and not is_mod(msg) then
+            if redis:get('lock_inline:megacreed'..chat_id) and  msg.via_bot_user_id_ ~= 0 and not is_mod(msg) then
               tdcli.deleteMessages(chat_id, {[0] = msg.id_})
             end
 
-            if redis:get('lock_reply:youseftearbot'..chat_id) and  msg.reply_to_message_id_ and not is_mod(msg) ~= 0 then
+            if redis:get('lock_reply:megacreed'..chat_id) and  msg.reply_to_message_id_ and not is_mod(msg) ~= 0 then
               tdcli.deleteMessages(chat_id, {[0] = msg.id_})
             end
 
-            if redis:get('mute_user:youseftearbot'..chat_id) and is_normal(msg) then
+            if redis:get('mute_user:megacreed'..chat_id) and is_normal(msg) then
               tdcli.deleteMessages(chat_id, {[0] = msg.id_})
             end
 
@@ -1145,7 +1145,7 @@ end
               tdcli.getChannelFull(msg.chat_id_,callback_admins)
             end
             channel_get_bots(msg.chat_id_,g_bots)
-            if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+            if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
               text = '_>_* All Bots Kicked!*'
             else
               text = '*> تمامي ربات ها پاک شدند !*'
@@ -1153,8 +1153,8 @@ end
             tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
           end
           if msg.content_.text_:match("^clean modlist$") and is_mod(msg) then
-            redis:del('promotes:youseftearbot'..msg.chat_id_)
-            if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+            redis:del('promotes:megacreed'..msg.chat_id_)
+            if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
               text = '_>_ *Modlist Has been Cleaned !*'
             else
               text = '*> ليست ناظم ها پاک شد !*'
@@ -1162,22 +1162,22 @@ end
             tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
           end
           if msg.content_.text_:match("^clean mutelist$") and is_mod(msg) then
-            if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+            if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
               text = '_>_ *Mute List Has been Cleaned !*'
             else
               text = '*> ليست افراد حذف شده پاک شد !*'
             end
-            redis:del('muteusers:youseftearbot'..msg.chat_id_)
-            redis:del('mute_user:youseftearbot'..msg.chat_id_)
+            redis:del('muteusers:megacreed'..msg.chat_id_)
+            redis:del('mute_user:megacreed'..msg.chat_id_)
             tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
           end
           if msg.content_.text_:match("^clean banlist$") and is_mod(msg) then
-            if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+            if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
               text = '_>_ *Ban List Has been Cleaned !*'
             else
               text = '*> ليست اعضاي بن شده پاک شد !*'
             end
-            redis:del('bot:banned:youseftearbot'..msg.chat_id_)
+            redis:del('bot:banned:megacreed'..msg.chat_id_)
             tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
           end
 
@@ -1187,7 +1187,7 @@ end
               local glink = msg.content_.text_:match("(https://telegram.me/joinchat/%S+)") or msg.content_.text_:match("(https://t.me/joinchat/%S+)")
               local hash = "bot:group:link"..msg.chat_id_
               redis:set(hash,glink)
-              if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                 text = '*New link Has been Set!*'
               else
                 text = '*لينک جديد تنظيم شد !*'
@@ -1203,10 +1203,10 @@ end
             local reply = msg.reply_to_message_id_
             if not matches[2] and reply == 0 then
               local function dl_photo(arg,data)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
-                  text = 'SuperGroup ID : '..string.sub(chat_id, 5,14)..'\nUser ID : '..msg.sender_user_id_..'\nChannel : @TearTeam'
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
+                  text = 'SuperGroup ID : '..string.sub(chat_id, 5,14)..'\nUser ID : '..msg.sender_user_id_..'\nChannel : @MegaCreedUpdates'
                 else
-                  text = 'آيدي گروه : '..string.sub(chat_id, 5,14)..'\nآيدي شخص : '..msg.sender_user_id_..'\nکانال ما : @TearTeam'
+                  text = 'آيدي گروه : '..string.sub(chat_id, 5,14)..'\nآيدي شخص : '..msg.sender_user_id_..'\nکانال ما : @MegaCreedUpdates'
                 end
                 tdcli.sendPhoto(msg.chat_id_, msg.id_, 0, 1, nil, data.photos_[0].sizes_[1].photo_.persistent_id_, text)
               end
@@ -1220,7 +1220,7 @@ end
           if msg.content_.text_:match("^setrules (.*)$") and is_mod(msg) then
             local txt = {string.match(msg.content_.text_, "^(setrules) (.*)$")}
             redis:set('bot:rules'..msg.chat_id_, txt[2])
-            if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+            if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
               text = '*Rules Has Been Set !*'
             else
               text = '*قوانين تنظيم شد !*'
@@ -1231,10 +1231,10 @@ end
           if msg.content_.text_:match("^rules$") and msg.chat_id_:match('-100(%d+)') then
             local rules = redis:get('bot:rules'..msg.chat_id_)
             if not rules then
-              if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
-                rules = '<b>No Rules has been Set for this Group !</b>\n\nChannel : @TearTeam'
+              if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
+                rules = '<b>No Rules has been Set for this Group !</b>\n\nChannel : @MegaCreedUpdates'
               else
-                rules = '<b>قوانيني براي اين گروه تنظيم نشده است !</b>\nکانال ما :‌ @TearTeam'
+                rules = '<b>قوانيني براي اين گروه تنظيم نشده است !</b>\nکانال ما :‌ @MegaCreedUpdates'
               end
             end
             tdcli.sendText(chat_id, msg.id_, 0, 1, nil, rules, 1, 'html')
@@ -1245,7 +1245,7 @@ end
           end
 
           if msg.content_.text_:match("^[Uu][Nn][Pp][Ii][Nn]$") and is_mod(msg) then
-            if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+            if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
               text = '<b>Message UnPinned</b>'
             else
               text = '<b>پيام سنجاق شده برداشته شد !</b>'
@@ -1257,7 +1257,7 @@ end
           -------------------------------------------------------------------
 
           if msg.content_.text_:match("^[Hh][eE]lp$") and msg.chat_id_:match('^-100(%d+)') and is_mod(msg) then
-            if redis:hget(msg.chat_id_, "lang:youseftearbot") == "fa" then
+            if redis:hget(msg.chat_id_, "lang:megacreed") == "fa" then
               help = [[ليست دستورات کمکي ربات :
 ??lock [flood(رگباري), spam(متن طولاني), link, tag( پيام حاوي # ) , username ( پيام حاوي @ ), forward , persian (حروف فارسي) , english(حروف انگليسي), reply, fosh, edit(ويرايش پيام) ,location (اشتراک مکان) , caption (عکس و ... شامل متن زيري), inline(استفاده از خاصيت اينلاين رباتا), emoji(شکلک)]
 براي قفل کردن( نوع پيام قفل شده حذف ميشود ) يکي از عبارت هاي داخل [] فقط اسم لاتين عبارت را جلوي lock بنويسيد مثلا :
@@ -1354,7 +1354,7 @@ setlang fa
 ??clean [modlist/bots/banlist/mutelist]
 براي پاک کردن ليست مديرت ها و ربات هاي گروه و اعضاي بن شده و اعضاي ساکت شده به کار ميره مثلا :
 clean mutelist
-کانال ما : @TearTeam
+کانال ما : @MegaCreedUpdates
 حتما جوين دهيد تا از دستورات و آپديت هاي جديد با خبر باشيد !‌
 
 
@@ -1450,7 +1450,7 @@ setfloodnum 10
 ??clean [modlist/bots/banlist/mutelist]
 <b>To Clean Moderators , Banned s , Muted Users , Bots list !</b>
 
-Our Channel : @TearTeam
+Our Channel : @MegaCreedUpdates
 <code>Join to Learn News and Newest Commands !</code>
 
 
@@ -1460,9 +1460,9 @@ Our Channel : @TearTeam
           end
           if msg.content_.text_:match("^addadmin$") and is_sudo(msg) and msg.reply_to_message_id_ then
             function addadmin_reply(extra, result, success)
-              local hash = 'botadmins:youseftearbot'
+              local hash = 'botadmins:megacreed'
               if redis:sismember(hash, result.sender_user_id_) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = 'User : `'..result.sender_user_id_..'` *is Already in Admin list !*'
                 else
                   text = 'کاربر : `'..result.sender_user_id_..'` *از قبل ادمين ربات هست !*'
@@ -1470,7 +1470,7 @@ Our Channel : @TearTeam
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               else
                 redis:sadd(hash, result.sender_user_id_)
-                if redis:hget(msg.chat_id_ , "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_ , "lang:megacreed") == "en" then
                   text = 'User : `'..result.sender_user_id_..'` *Has been added as admin !*'
                 else
                   text = 'کاربر : `'..result.sender_user_id_..'` *به ادمين هاي ربات اضافه شد !*'
@@ -1484,14 +1484,14 @@ Our Channel : @TearTeam
             local match= {string.match(msg.content_.text_, "^(addadmin) @(.*)$")}
             function addadmin_by_username(extra, result, success)
               if result.id_ then
-                redis:sadd('botadmins:youseftearbot', result.id_)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                redis:sadd('botadmins:megacreed', result.id_)
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   texts = 'User : <code>'..match[2]..'</code> <b>Has been Added to Admins !</b>'
                 else
                   texts = 'کاربر : <code>'..match[2]..'</code> <b>به ادمين هاي ربات اضافه شد !</b>'
                 end
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   texts = '<code>Error 404 !</code>\n<b>User not found!</b>'
                 else
                   texts = '<code>خطاي ??? !</code>\n<b>کاربر يافت نشد !</b>'
@@ -1504,8 +1504,8 @@ Our Channel : @TearTeam
           end
           if msg.content_.text_:match("^addadmin (%d+)$") and is_sudo(msg) then
             local match = {string.match(msg.content_.text_, "^(addadmin) (%d+)$")}
-            redis:sadd('botadmins:youseftearbot', match[2])
-            if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+            redis:sadd('botadmins:megacreed', match[2])
+            if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
               texts = 'User : <code>'..match[2]..'</code> <b>Has been Added to Admins !</b>'
             else
               texts = 'کاربر : <code>'..match[2]..'</code> <b>به ادمين هاي ربات اضافه شد !</b>'
@@ -1513,7 +1513,7 @@ Our Channel : @TearTeam
           end
           if msg.content_.text_:match("^remadmin$") and is_sudo(msg) and msg.reply_to_message_id_ then
             function remadmin_reply(extra, result, success)
-              local hash = 'botadmins:youseftearbot'
+              local hash = 'botadmins:megacreed'
               if not redis:sismember(hash, result.sender_user_id_) then
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, 'User : `'..result.sender_user_id_..'` *Is not Admin !*', 1, 'md')
               else
@@ -1525,7 +1525,7 @@ Our Channel : @TearTeam
           end
           -----------------------------------------------------------------------------------------------
           if msg.content_.text_:match("^remadmin @(.*)$") and is_sudo(msg) then
-            local hash = 'botadmins:youseftearbot'
+            local hash = 'botadmins:megacreed'
             local ap = {string.match(msg.content_.text_, "^(remadmin) @(.*)$")}
             function remadmin_by_username(extra, result, success)
               if result.id_ then
@@ -1540,18 +1540,18 @@ Our Channel : @TearTeam
           end
           -----------------------------------------------------------------------------------------------
           if msg.content_.text_:match("^remadmin (%d+)$") and is_sudo(msg) then
-            local hash = 'botadmins:youseftearbot'
+            local hash = 'botadmins:megacreed'
             local ap = {string.match(msg.content_.text_, "^(remadmin) (%d+)$")}
             redis:srem(hash, ap[2])
             tdcli.sendText(chat_id, msg.id_, 0, 1, nil, 'User : <code>'..ap[2]..'</code> <b>Has been Removed From Admins list !</b>', 1, 'html')
           end
           ----------------------------------------------------------------------------------------------__
           if msg.content_.text_:match('^([Aa]dminlist)') and is_admin(msg) then
-            if redis:scard('botadmins:youseftearbot') == 0 then
+            if redis:scard('botadmins:megacreed') == 0 then
               tdcli.sendText(chat_id, 0, 0, 1, nil, '`Sorry Sir !`\n*There isnt any Admins Set for Bot !*', 1, 'md')
             else
               local text = "<b>Creed Bots Admins :</b> \n"
-              for k,v in pairs(redis:smembers('botadmins:youseftearbot')) do
+              for k,v in pairs(redis:smembers('botadmins:megacreed')) do
                 text = text.."<b>"..k.."</b> <b>></b> "..get_info(v).."\n"
               end
               tdcli.sendText(msg.chat_id_, msg.id_, 0, 1, nil, text, 1, 'html')
@@ -1570,14 +1570,14 @@ Our Channel : @TearTeam
             local ap = {string.match(msg.content_.text_, "^(promote) @(.*)$")}
             function promote_by_username(extra, result, success)
               if result.id_ then
-                redis:sadd('promotes:youseftearbot'..msg.chat_id_, result.id_)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                redis:sadd('promotes:megacreed'..msg.chat_id_, result.id_)
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   texts = 'User : <code>'..result.id_..'</code> <b>Has Been Promoted !</b>'
                 else
                   texts = 'کاربر : <code>'..result.id_..'</code> <b>ارتقا يافت !</b>'
                 end
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   texts = '<code>Error 404 !</code>\n<b>User Not Found !</b>'
                 else
                   texts = '<code>خطاي ??? !</code>\n<b>کاربر يافت نشد !</b>'
@@ -1589,9 +1589,9 @@ Our Channel : @TearTeam
           end
           -----------------------------------------------------------------------------------------------
           if msg.content_.text_:match("^promote (%d+)$") and is_owner(msg) then
-            local hash = 'promotes:youseftearbot'..msg.chat_id_
+            local hash = 'promotes:megacreed'..msg.chat_id_
             local ap = {string.match(msg.content_.text_, "^(promote) (%d+)$")}
-            if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+            if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
               text = 'User : <code>'..ap[2]..'</code> <b>Has been Promoted !</b>'
             else
               text = 'کاربر : <code>'..ap[2]..'</code> <b>ارتقا يافت !</b>'
@@ -1600,18 +1600,18 @@ Our Channel : @TearTeam
             tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'html')
           end
           if msg.content_.text_:match("^demote @(.*)$") and is_owner(msg) then
-            local hash = 'promotes:youseftearbot'..msg.chat_id_
+            local hash = 'promotes:megacreed'..msg.chat_id_
             local ap = {string.match(msg.content_.text_, "^(demote) @(.*)$")}
             function demote_by_username(extra, result, success)
               if result.id_ then
                 redis:srem(hash, result.id_)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   texts = 'User :<code>'..result.id_..'</code> <b>Has been Demoted !</b>'
                 else
                   texts = 'کاربر :<code>'..result.id_..'</code> <b>عزل مقام شد !</b>'
                 end
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   texts = '<code>Error 404 !</code>\n<b>User Not Found !</b>'
                 else
                   texts = '<code>خطاي ??? !</code>\n<b>کاربر يافت نشد !</b>'
@@ -1623,10 +1623,10 @@ Our Channel : @TearTeam
           end
           -------------------------------------------------------------------------------------------------
           if msg.content_.text_:match("^demote (%d+)$") and is_owner(msg) then
-            local hash = 'promotes:youseftearbot'..msg.chat_id_
+            local hash = 'promotes:megacreed'..msg.chat_id_
             local ap = {string.match(msg.content_.text_, "^(demote) (%d+)$")}
             redis:srem(hash, ap[2])
-            if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+            if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
               text = 'User : <code>'..ap[2]..'</code> <b>Has been Demoted !</b>'
             else
               text = 'کاربر : <code>'..ap[2]..'</code> <b>عزل شد ! </b>'
@@ -1635,20 +1635,20 @@ Our Channel : @TearTeam
           end
 
           if msg.content_.text_:match('^([Mm]odlist)') and is_mod(msg) then
-            if redis:scard('promotes:youseftearbot'..chat_id) == 0 then
-              if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+            if redis:scard('promotes:megacreed'..chat_id) == 0 then
+              if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                 text = '*There is no Moderators !*'
               else
                 text = '*مديري تعيين نشده است !*'
               end
               tdcli.sendText(chat_id, 0, 0, 1, nil, text, 1, 'md')
             else
-              if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                 text = "<b>Group Moderators List :</b> \n"
               else
                 text = "<b>ليست مديران گروه :</b> \n"
               end
-              for k,v in pairs(redis:smembers('promotes:youseftearbot'..chat_id)) do
+              for k,v in pairs(redis:smembers('promotes:megacreed'..chat_id)) do
                 text = text.."<code>"..k.."</code> - "..get_info(v).."\n"
               end
               tdcli.sendText(chat_id, 0, 0, 1, nil, text, 1, 'html')
@@ -1665,18 +1665,18 @@ Our Channel : @TearTeam
           end
 
           if msg.content_.text_:match('^([Oo]wner)$') then
-            local hash = 'owners:youseftearbot'..chat_id
+            local hash = 'owners:megacreed'..chat_id
             local owner = redis:get(hash)
             if owner == nil then
-              if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                 text = '*There is not Owner in this group !*'
               else
                 text = '*براي اين گروه مديري تعيين نشده است !*'
               end
               tdcli.sendText(chat_id, 0, 0, 1, nil, text, 1, 'md')
             end
-            local owner_list = redis:get('owners:youseftearbot'..chat_id)
-            if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+            local owner_list = redis:get('owners:megacreed'..chat_id)
+            if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
               text85 = '??<b>Group Owner :</b>\n\n '..get_info(owner_list)
             else
               text85 = '??<b>مدير گروه :</b>\n\n '..get_info(owner_list)
@@ -1691,15 +1691,15 @@ Our Channel : @TearTeam
             local matches = {string.match(msg.content_.text_, "^([Ss]etowner) @(.*)$")}
             function setowner_username(extra, result, success)
               if result.id_ then
-                redis:set('owners:youseftearbot'..msg.chat_id_, result.id_)
-                redis:sadd('owners:youseftearbot'..result.id_,msg.chat_id_)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                redis:set('owners:megacreed'..msg.chat_id_, result.id_)
+                redis:sadd('owners:megacreed'..result.id_,msg.chat_id_)
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   texts = 'User : <code>'..result.id_..'</code> <b>Has Been Promoted as Owner !</b>'
                 else
                   texts = 'کاربر : <code>'..result.id_..'</code> <b>به عنوان مدير گروه ارتقا يافت !</b>'
                 end
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   texts = '<code>Error 404 !</code>\n<b>User Not Found !</b>'
                 else
                   texts = '<code>خطاي ??? !</code>\n<b>يافت نشد !</b>'
@@ -1712,9 +1712,9 @@ Our Channel : @TearTeam
 
 
           if msg.content_.text_:match('^[Dd]elowner (.*)') and is_admin(msg) then
-            redis:del('owners:youseftearbot'..chat_id)
-            redis:srem('owners:youseftearbot'..msg.sender_user_id_,msg.chat_id_)
-            if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+            redis:del('owners:megacreed'..chat_id)
+            redis:srem('owners:megacreed'..msg.sender_user_id_,msg.chat_id_)
+            if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
               text = 'User : `'..msg.content_.text_:match('^[Dd]elowner (.*)')..'` *Has been De-Ownered !*'
             else
               text = 'کاربر : `'..msg.content_.text_:match('^[Dd]elowner (.*)')..'` *از مديريت عزل شد !*'
@@ -1724,18 +1724,18 @@ Our Channel : @TearTeam
 
 
           if msg.content_.text_:match("^[Dd]eowner @(.*)$") and is_owner(msg) then
-            local hash = 'promotes:youseftearbot'..msg.chat_id_
+            local hash = 'promotes:megacreed'..msg.chat_id_
             local ap2 = {string.match(msg.content_.text_, "^([Dd]eowner) @(.*)$")}
             function deowner_username(extra, result, success)
               if result.id_ then
                 redis:del(hash, result.id_)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   texts = 'User :<code>'..result.id_..'</code> <b>Has been Demoted From Owner !</b>'
                 else
                   texts = 'کاربر :<code>'..result.id_..'</code> <b>از مديريت عزل شد !</b>'
                 end
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   texts = '<b>User not found !</b>'
                 else
                   texts = '<b>کاربر يافت نشد !</b>'
@@ -1751,7 +1751,7 @@ Our Channel : @TearTeam
           if msg.content_.text_:match('^rmsg (.*)') and is_mod(msg) then
             local num = msg.content_.text_:match('^rmsg (.*)')
             if 1000 < tonumber(num) then
-              if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                 text = "*Wrong Number !*\n*Number Should be Between* `1-1000` *Numbers !*"
               else
                 text = "*مقدار اشتباه است !*\n*مقدار مجاز بايد بين اعداد* `1-1000` *باشد !*"
@@ -1783,15 +1783,15 @@ Our Channel : @TearTeam
           end
 
           if input:match('^kick (.*)') and not input:find('@') and is_mod(msg) then
-            if redis:sismember('promotes:youseftearbot'..msg.chat_id_ ,input:match('^kick (.*)')) then
-              if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+            if redis:sismember('promotes:megacreed'..msg.chat_id_ ,input:match('^kick (.*)')) then
+              if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                 text = '*You Can,t Kick Moderators !*'
               else
                 text = '*شما نميتوانيد مدير و ناظم هارا حذف کنيد !*'
               end
               tdcli.sendText(chat_id, 0, 0, 1, nil, text, 1, 'md')
             else
-              if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                 text = 'User : '..get_info(input:match('^kick (.*)'))..' <b>Has been Kicked !</b>'
               else
                 text = 'کاربر : \n'..get_info(input:match('^kick (.*)'))..'\n حذف شد !'
@@ -1801,8 +1801,8 @@ Our Channel : @TearTeam
             end
           end
           if input:match('^kick (.*)') and input:find('@') and is_mod(msg) then
-            if redis:sismember('promotes:youseftearbot'..msg.chat_id_ ,input:match('^kick (.*)') ) then
-              if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+            if redis:sismember('promotes:megacreed'..msg.chat_id_ ,input:match('^kick (.*)') ) then
+              if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                 text = '*You Can,t Kick Moderators !*'
               else
                 text = '*شما نميتوانيد مدير و ناظم هارا حذف کنيد !*'
@@ -1810,7 +1810,7 @@ Our Channel : @TearTeam
               tdcli.sendText(chat_id, 0, 0, 1, nil, text, 1, 'md')
             else
               function Inline_Callback_(arg, data)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = 'User : '..input:match('^kick (.*)')..' <b>Has been Kicked !</b>'
                 else
                   text = 'کاربر : '..input:match('^kick (.*)')..' حذف شد !'
@@ -1824,9 +1824,9 @@ Our Channel : @TearTeam
           --------------------------------------------------------
           if msg.content_.text_:match("^ban$") and is_mod(msg) and msg.reply_to_message_id_ then
             function ban_by_reply(extra, result, success)
-              local hash = 'bot:banned:youseftearbot'..msg.chat_id_
+              local hash = 'bot:banned:megacreed'..msg.chat_id_
               if redis:sismember(hash, result.sender_user_id_) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = 'User : `'..result.sender_user_id_..'` *is Already Banned !*'
                 else
                   text = 'کاربر : `'..result.sender_user_id_..'` *از قبل بن بود !*'
@@ -1836,7 +1836,7 @@ Our Channel : @TearTeam
               else
                 redis:sadd(hash, result.sender_user_id_)
 
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = 'User : `'..result.sender_user_id_..'` *Has been Banned !*'
                 else
                   text = 'کاربر : `'..result.sender_user_id_..'` *از گروه بن شد !*'
@@ -1844,8 +1844,8 @@ Our Channel : @TearTeam
                 tdcli.sendText(chat_id, 0, 0, 1, nil, text, 1, 'md')
                 chat_kick(result.chat_id_, result.sender_user_id_)
               end
-              if result.sender_user_id_ == redis:sismember('promotes:youseftearbot'..msg.chat_id_) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if result.sender_user_id_ == redis:sismember('promotes:megacreed'..msg.chat_id_) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*You Can,t Ban Moderators !*'
                 else
                   text = '*شما نميتوانيد مدير و ناظم هارا بن کنيد !*'
@@ -1858,17 +1858,17 @@ Our Channel : @TearTeam
           -----------------------------------------------------------------------------------------------
           if msg.content_.text_:match("^banall$") and is_sudo(msg) and msg.reply_to_message_id_ then
             function banall_by_reply(extra, result, success)
-		if redis:sismember('botadmins:youseftearbot', result.id_) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+		if redis:sismember('botadmins:megacreed', result.id_) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*You Can,t Banall [ Admins / Sudo ] !*'
                 else
                   text = '*شما نميتوانيد سازنده ربات و ادمين ها را بن کنيد !*'
                 end
                 tdcli.sendText(chat_id, 0, 0, 1, nil, text, 1, 'md')
               end
-              local hash = 'bot:gbanned:youseftearbot'
+              local hash = 'bot:gbanned:megacreed'
               if redis:sismember(hash, result.id_) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = 'User : `'..result.id_..'` *is Already Globally Banned !*'
                 else
                   text = 'کاربر : `'..result.id_..'` *از قبل بن همگاني بود !*'
@@ -1878,7 +1878,7 @@ Our Channel : @TearTeam
               else
                 redis:sadd(hash, result.id_)
 
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = 'User : `'..result.id_..'` *Has been Globally Banned !*'
                 else
                   text = 'کاربر : `'..result.id_..'` *از گروه بن همگاني شد !*'
@@ -1894,17 +1894,17 @@ Our Channel : @TearTeam
             local ap = {string.match(msg.content_.text_, "^(ban) @(.*)$")}
             function ban_by_username(extra, result, success)
               if result.id_ then
-                if redis:get('promotes:youseftearbot'..result.id_) then
-                  if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:get('promotes:megacreed'..result.id_) then
+                  if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                     text = '*You Can,t Ban Moderators !*'
                   else
                     text = '*شما نميتوانيد مدير و ناظم هارا بن کنيد !*'
                   end
                   tdcli.sendText(chat_id, 0, 0, 1, nil, text, 1, 'md')
                 end
-                if not redis:get('promotes:youseftearbot'..result.id_) then
-                  redis:sadd('bot:banned:youseftearbot'..msg.chat_id_, result.id_)
-                  if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if not redis:get('promotes:megacreed'..result.id_) then
+                  redis:sadd('bot:banned:megacreed'..msg.chat_id_, result.id_)
+                  if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                     texts = 'User : '..result.id_..' <b>Has been Banned !</b>'
                   else
                     texts = 'کاربر : '..result.id_..' <b>بن شد !</b>'
@@ -1912,7 +1912,7 @@ Our Channel : @TearTeam
                   chat_kick(msg.chat_id_, result.id_)
                 end
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   texts = '<code>User not found!</code>'
                 else
                   texts = '<code>کاربر يافت نشد !</code>'
@@ -1927,17 +1927,17 @@ Our Channel : @TearTeam
             local ap = {string.match(msg.content_.text_, "^(banall) @(.*)$")}
             function banall_by_username(extra, result, success)
               if result.id_ then
-                if redis:sismember('botadmins:youseftearbot', result.id_) then
-                  if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:sismember('botadmins:megacreed', result.id_) then
+                  if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                     text = '*You Can,t Banall [ Admins / Sudo ] !*'
                   else
                     text = '*شما نميتوانيد سازنده ربات و ادمين ها را بن کنيد !*'
                   end
                   tdcli.sendText(chat_id, 0, 0, 1, nil, text, 1, 'md')
                 end
-                if not redis:sismember('bot:gbanned:youseftearbot', result.id_) then
-                  redis:sadd('bot:gbanned:youseftearbot', result.id_)
-                  if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if not redis:sismember('bot:gbanned:megacreed', result.id_) then
+                  redis:sadd('bot:gbanned:megacreed', result.id_)
+                  if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                     texts = '<b>User :</b> '..get_info(result.id_)..' <b>Has been Globally Banned !</b>'
                   else
                     texts = 'کاربر : \n'..get_info(result.id_)..' \n<b>بن همگاني شد !</b>'
@@ -1945,7 +1945,7 @@ Our Channel : @TearTeam
                   chat_kick(msg.chat_id_, result.id_)
                 end
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   texts = '<code>User not found!</code>'
                 else
                   texts = '<code>کاربر يافت نشد !</code>'
@@ -1958,17 +1958,17 @@ Our Channel : @TearTeam
           -----------------------------------------------------------------------------------------------
           if msg.content_.text_:match("^ban (%d+)$") and is_mod(msg) then
             local ap = {string.match(msg.content_.text_, "^(ban) (%d+)$")}
-            if redis:get('promotes:youseftearbot'..result.chat_id_, result.id_) then
-              if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+            if redis:get('promotes:megacreed'..result.chat_id_, result.id_) then
+              if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                 text = '*You Can,t [Kick/Ban] Moderators !*'
               else
                 text = '*شما نميتوانيد مدير و ناظم ها را بن کنيد !*'
               end
               tdcli.sendText(chat_id, 0, 0, 1, nil, text, 1, 'md')
             else
-              redis:sadd('bot:banned:youseftearbot'..msg.chat_id_, ap[2])
+              redis:sadd('bot:banned:megacreed'..msg.chat_id_, ap[2])
               chat_kick(msg.chat_id_, ap[2])
-              if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                 text = 'User : '..ap[2]..' <b> Has been Banned !</b>'
               else
                 text = 'کاربر : '..ap[2]..' <b> بن شد !</b>'
@@ -1980,16 +1980,16 @@ Our Channel : @TearTeam
           if msg.content_.text_:match("^banall (%d+)$") and is_sudo(msg) then
             local ap = {string.match(msg.content_.text_, "^(banall) (%d+)$")}
             if not redis:sismember("botadmins:", ap[2]) or sudo_users == result.sender_user_id_ then
-		redis:sadd('bot:gbanned:youseftearbot', ap[2])
+		redis:sadd('bot:gbanned:megacreed', ap[2])
               chat_kick(msg.chat_id_, ap[2])
-              if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                 text = '<b>User :</b> <code>'..ap[2]..'</code> <b> Has been Globally Banned !</b>'
               else
                 text = 'کاربر : <code>'..ap[2]..'</code> <b> بن همگاني شد !</b>'
               end
               tdcli.sendText(chat_id, 0, 0, 1, nil, text, 1, 'html')	
             else
-              if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                 text = '*You Can,t Banall [Admins / Sudo ] !*'
               else
                 text = '*شما نميتوانيد سازنده ربات و ادمين ها را بن کنيد !*'
@@ -2000,9 +2000,9 @@ Our Channel : @TearTeam
           -----------------------------------------------------------------------------------------------
           if msg.content_.text_:match("^[Uu]nban$") and is_mod(msg) and msg.reply_to_message_id_ then
             function unban_by_reply(extra, result, success)
-              local hash = 'bot:banned:youseftearbot'..msg.chat_id_
+              local hash = 'bot:banned:megacreed'..msg.chat_id_
               if not redis:sismember(hash, result.sender_user_id_) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = 'User : '..result.sender_user_id_..' <b>is Not Banned !</b>'
                 else
                   text = 'کاربر : '..result.sender_user_id_..' <b>بن نبود !</b>'
@@ -2010,7 +2010,7 @@ Our Channel : @TearTeam
                 tdcli.sendText(chat_id, 0, 0, 1, nil, text, 1, 'html')
               else
                 redis:srem(hash, result.sender_user_id_)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = 'User : '..result.sender_user_id_..' <b>Has been Unbanned !</b>'
                 else
                   text = 'کاربر : '..result.sender_user_id_..' <b>آنبن شد !</b>'
@@ -2024,9 +2024,9 @@ Our Channel : @TearTeam
           -----------------------------------------------------------------------------------------------
           if msg.content_.text_:match("^[Uu]nbanall$") and is_sudo(msg) and msg.reply_to_message_id_ then
             function unbanall_by_reply(extra, result, success)
-              local hash = 'bot:gbanned:youseftearbot'
+              local hash = 'bot:gbanned:megacreed'
               if not redis:sismember(hash, result.sender_user_id_) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>User :</b> '..get_info(result.sender_user_id_)..' <b>is Not Globally Banned !</b>'
                 else
                   text = 'کاربر : \n'..get_info(result.sender_user_id_)..' \n<b>بن نبود !</b>'
@@ -2034,7 +2034,7 @@ Our Channel : @TearTeam
                 tdcli.sendText(chat_id, 0, 0, 1, nil, text, 1, 'html')
               else
                 redis:srem(hash, result.sender_user_id_)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>User :</b> '..get_info(result.sender_user_id_)..' <b>Has been Globally Unbanned !</b>'
                 else
                   text = 'کاربر : \n'..get_info(result.sender_user_id_)..' \n<b>آنبن شد !</b>'
@@ -2049,14 +2049,14 @@ Our Channel : @TearTeam
             local ap = {string.match(msg.content_.text_, "^(unban) @(.*)$")}
             function unban_by_username(extra, result, success)
               if result.id_ then
-                redis:srem('bot:banned:youseftearbot'..msg.chat_id_, result.id_)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                redis:srem('bot:banned:megacreed'..msg.chat_id_, result.id_)
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>User :</b> '..result.id_..' <b>Has been Unbanned !</b>'
                 else
                   text = '<b>کاربر :</b> '..result.id_..' <b> آنبن شد !</b>'
                 end
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<code>Error 404 !</code>\n<b>User not found!</b>'
                 else
                   text = '<code>خطاي ???  !</code>\n<b>کاربر يافت نشد !</b>'
@@ -2072,14 +2072,14 @@ Our Channel : @TearTeam
             local ap = {string.match(msg.content_.text_, "^(unbanall) @(.*)$")}
             function unbanall_by_username(extra, result, success)
               if result.id_ then
-                redis:srem('bot:gbanned:youseftearbot', result.id_)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                redis:srem('bot:gbanned:megacreed', result.id_)
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>User :</b> '..get_info(result.id_)..' <b>Has been Globally Unbanned !</b>'
                 else
                   text = '<b>کاربر :</b> \n'..get_info(result.id_)..' \n<b> آنبن همگاني شد !</b>'
                 end
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<code>Error 404 !</code>\n<b>User not found!</b>'
                 else
                   text = '<code>خطاي ???  !</code>\n<b>کاربر يافت نشد !</b>'
@@ -2092,8 +2092,8 @@ Our Channel : @TearTeam
           -----------------------------------------------------------------------------------------------
           if msg.content_.text_:match("^[Uu]nban (%d+)$") and is_mod(msg) then
             local ap = {string.match(msg.content_.text_, "^([Uu]nban) (%d+)$")}
-            redis:srem('bot:banned:youseftearbot'..msg.chat_id_, ap[2])
-            if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+            redis:srem('bot:banned:megacreed'..msg.chat_id_, ap[2])
+            if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
               text = 'User : '..ap[2]..' <b>Has been Unbanned !</b>'
             else
               text = 'کاربر : '..ap[2]..' <b>آنبن شد !</b>'
@@ -2104,14 +2104,14 @@ Our Channel : @TearTeam
           if msg.content_.text_:match("^[Uu]nbanall (%d+)$") and is_sudo(msg) then
             local ap = {string.match(msg.content_.text_, "^([Uu]nbanall) (%d+)$")}
 	     if not redis:hget('bot:gbanned', ap[2]) then
-            if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+            if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
               text = '<b>User :</b> '..get_info(ap[2])..' <b>Is not Globally banned !</b>'
             else
               text = 'کاربر : \n'..get_info(ap[2])..' \n<b>بن همگاني نبود !</b>'
             end
 	    else
-            redis:srem('bot:gbanned:youseftearbot', ap[2])
-            if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+            redis:srem('bot:gbanned:megacreed', ap[2])
+            if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
               text = '<b>User :</b> '..get_info(ap[2])..' <b>Has been Globally Unbanned !</b>'
             else
               text = 'کاربر : \n'..get_info(ap[2])..' \n<b>آنبن همگاني شد !</b>'
@@ -2121,9 +2121,9 @@ Our Channel : @TearTeam
           end
           ----------------------------------------------------------
           if msg.content_.text_:match("^banlist$") and is_mod(msg) then
-            local hash =  'bot:banned:youseftearbot'..msg.chat_id_
+            local hash =  'bot:banned:megacreed'..msg.chat_id_
             local list = redis:smembers(hash)
-            if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+            if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
               text = "<b>Ban List:</b>\n\n"
             else
               text = "<b>ليست بن شده ها :</b>\n\n"
@@ -2138,7 +2138,7 @@ Our Channel : @TearTeam
               end
             end
             if #list == 0 then
-              if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                 text = "<code>Error 404 !</code>\n<b>Ban List is empty !</b>"
               else
                 text = "<code>خطاي ??? !</code>\n<b>ليست بن خاليست !</b>"
@@ -2149,9 +2149,9 @@ Our Channel : @TearTeam
 
           ---------------------------------------------------------
           if msg.content_.text_:match("^gbanlist$") and is_admin(msg) then
-            local hash =  'bot:gbanned:youseftearbot'
+            local hash =  'bot:gbanned:megacreed'
             local list = redis:smembers(hash)
-            if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+            if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
               text = "<b>Global Ban List:</b>\n\n"
             else
               text = "<b>ليست بن شده هاي همگاني :</b>\n\n"
@@ -2166,7 +2166,7 @@ Our Channel : @TearTeam
               end
             end
             if #list == 0 then
-              if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                 text = "<code>Error 404 !</code>\n<b>Ban List is empty !</b>"
               else
                 text = "<code>خطاي ??? !</code>\n<b>ليست بن هاي همگاني خاليست !</b>"
@@ -2177,7 +2177,7 @@ Our Channel : @TearTeam
           ----------------------------------------------------------
 
           if msg.content_.text_:match('^muteuser') and is_mod(msg) then
-            redis:set('mute_user:youseftearbot'..chat_id,'yes')
+            redis:set('mute_user:megacreed'..chat_id,'yes')
             tdcli_function({ID = "GetMessage",chat_id_ = msg.chat_id_,message_id_ = msg.reply_to_message_id_}, setmute_reply, 'md')
           end
           if msg.content_.text_:match('^unmuteuser') and is_mod(msg) then
@@ -2185,9 +2185,9 @@ Our Channel : @TearTeam
           end
           mu = msg.content_.text_:match('^muteuser (.*)')
           if mu and is_mod(msg) then
-            redis:sadd('muteusers:youseftearbot'..chat_id,mu)
-            redis:set('mute_user:youseftearbot'..chat_id,'yes')
-            if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+            redis:sadd('muteusers:megacreed'..chat_id,mu)
+            redis:set('mute_user:megacreed'..chat_id,'yes')
+            if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
               text = 'User : <code>('..mu..')</code> <b>Has been Added to mutelist</b>'
             else
               text = 'کاربر : <code>('..mu..')</code> <b>ساکت شد !</b>\nوضعيت : <code>قادر به حرف زدن نميباشد !</code>'
@@ -2196,8 +2196,8 @@ Our Channel : @TearTeam
           end
           umu = msg.content_.text_:match('^unmuteuser (.*)')
           if umu and is_mod(msg) then
-            redis:srem('muteusers:youseftearbot'..chat_id,umu)
-            if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+            redis:srem('muteusers:megacreed'..chat_id,umu)
+            if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
               text = 'User : <code>('..umu..')</code> <b>Has Been Removed From Mute list !</b>'
             else
               text = 'کاربر : <code>('..umu..')</code> <b>از ليست ساکت شده ها حذف شد !</b>'
@@ -2208,14 +2208,14 @@ Our Channel : @TearTeam
             local aps = {string.match(msg.content_.text_, "^muteuser @(.*)$")}
             function mute_by_username(extra, result, success)
               if result.id_ then
-                redis:sadd('promotes:youseftearbot'..msg.chat_id_, result.id_)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                redis:sadd('promotes:megacreed'..msg.chat_id_, result.id_)
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   textss = 'User : <code>('..result.id_..')</code> <b>Has been Added to mutelist</b>'
                 else
                   textss = 'کاربر : <code>('..result.id_..')</code> <b>ساکت شد !</b>\nوضعيت : <code>قادر به حرف زدن نميباشد !</code>'
                 end
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   textss = '<code>Error 404 !</code>\n<b>User Not Found !</b>'
                 else
                   textss = '<code>خطاي ??? !</code>\n<b>کاربر يافت نشد !</b>'
@@ -2226,20 +2226,20 @@ Our Channel : @TearTeam
             resolve_username(aps[2],mute_by_username)
           end
           if input:match('^[Mm]utelist') then
-            if redis:scard('muteusers:youseftearbot'..chat_id) == 0 then
-              if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+            if redis:scard('muteusers:megacreed'..chat_id) == 0 then
+              if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                 text = '*There is not Muted Users in This Group !*'
               else
                 text = '*هيچ شخص ساکت شده اي وجود ندارد !*'
               end
               return tdcli.sendText(chat_id, 0, 0, 1, nil, text, 1, 'md')
             end
-            if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+            if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
               text = "<b>Muted Users List :</b>\n"
             else
               text = "<b>ليست اعضاي ساکت شده :</b>\n"
             end
-            for k,v in pairs(redis:smembers('muteusers:youseftearbot'..chat_id)) do
+            for k,v in pairs(redis:smembers('muteusers:megacreed'..chat_id)) do
               text = text.."<code>"..k.."</code>> <b>"..v.."</b>\n"
             end
             return tdcli.sendText(chat_id, 0, 0, 1, nil, text, 1, 'html')
@@ -2247,7 +2247,7 @@ Our Channel : @TearTeam
           ---------------------------------------------------------------------------------------------
 
           if msg.content_.text_:find('^https://(.*)') or msg.content_.text_:find('^http://(.*)') and not is_mod(msg) then
-            if redis:get('mute_weblink:youseftearbot'..msg.sender_user_id_) then
+            if redis:get('mute_weblink:megacreed'..msg.sender_user_id_) then
               tdcli.deleteMessages(msg.chat_id_, {[0] = msg.reply_to_message_id_})
             else return end
             end
@@ -2259,7 +2259,7 @@ Our Channel : @TearTeam
 
             -----------------------------------------------------------------------------------------------
             if msg.content_.text_:match("^[Ff]ilter (.*)$") and is_mod(msg) then
-              if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                 text = '<b>Word :</b> <code>'..msg.content_.text_:match("^[Ff]ilter (.*)$")..'</code> <b>Has been Added to Filtered Words !</b>'
               else
                 text = '<b>کلمه ي :</b> <code>'..msg.content_.text_:match("^[Ff]ilter (.*)$")..'</code> <b>به ليست کلمات فيلتر شده اضافه شد !</b>'
@@ -2268,7 +2268,7 @@ Our Channel : @TearTeam
               redis:sadd('filters:'..msg.chat_id_, msg.content_.text_:match("^[Ff]ilter (.*)$"))
             end
             if msg.content_.text_:match("^[Uu]n[Ff]ilter (.*)$") and is_mod(msg) then
-              if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                 text = '<b>Word :</b> <code>'..msg.content_.text_:match("^[Uu]n[Ff]ilter (.*)$")..'</code> <b>Has been Removed From Filtered Words !</b>'
               else
                 text = '<b>کلمه ي :</b> <code>'..msg.content_.text_:match("^[Uu]n[Ff]ilter (.*)$")..'</code> <b>از ليست کلمات فيلتر شده حذف شد !</b>'
@@ -2280,14 +2280,14 @@ Our Channel : @TearTeam
             if msg.content_.text_:match("^filters$") and is_mod(msg) then
               local flist = redis:smembers('filters:'..msg.chat_id_)
               if flist == 0 then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Filter List is Empty !*'
                 else
                   text = '*ليست کلمات فيلتر شده خالي ميباشد !*'
                 end
                 tdcli.sendText(msg.chat_id_, msg.id_, 0, 1, nil, text, 1 , "md")
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Filtered Words List :*\n\n'
                 else
                   text = '*ليست کلمات فيلتر شده :*\n\n'
@@ -2331,40 +2331,40 @@ Our Channel : @TearTeam
 
             ---------------------------------------------------------------
             --lock bots
-            groups = redis:sismember('groups:youseftearbot',chat_id)
+            groups = redis:sismember('groups:megacreed',chat_id)
             if msg.content_.text_:match("^[Ll]ock bots$") and is_mod(msg)  then
-              if redis:get('lock_bots:youseftearbot'..chat_id) then
+              if redis:get('lock_bots:megacreed'..chat_id) then
                 return tdcli.sendText(chat_id, msg.id_, 0, 1, nil, '<b>Bots Status Was :</b> <code>Locked</code> \n<b>Bots Protection Are Already Locked by :</b> '..get_info(redis:get('locker_bots'..chat_id))..'', 1, 'html')
               else
                 redis:set('locker_bots'..chat_id, msg.sender_user_id_)
-                redis:set('lock_bots:youseftearbot'..chat_id, "True")
+                redis:set('lock_bots:megacreed'..chat_id, "True")
                 return tdcli.sendText(chat_id, msg.id_, 0, 1, nil, '<b>Bots Status :</b> <code>Locked</code> \n<b>Bots Protection Has been Changed by :</b>\n'..get_info(msg.sender_user_id_)..'', 1, 'html')
               end
             end
             if msg.content_.text_:match("^[Uu]nlock bots$")  and is_mod(msg)  then
-              if not redis:get('lock_bots:youseftearbot'..chat_id) then
+              if not redis:get('lock_bots:megacreed'..chat_id) then
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, '<b>‌Bots Protection Was on :</b> <code>UnLock</code>\n<b>Status Not Changed !</b>', 1, 'html')
               else
                 redis:set('unlocker_bots'..chat_id, msg.sender_user_id_)
-                redis:del('lock_bots:youseftearbot'..chat_id)
+                redis:del('lock_bots:megacreed'..chat_id)
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, '<b>Bots Status :</b> <code>UnLock</code>\n<b>Bots Protections Has Been Disabled !</b>', 1, 'html')
               end
             end
 
             --lock links
-            groups = redis:sismember('groups:youseftearbot',chat_id)
+            groups = redis:sismember('groups:megacreed',chat_id)
             if msg.content_.text_:match("^[Ll]ock links$") and is_mod(msg)  then
-              if redis:get('lock_links:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:get('lock_links:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Links Status Was :</b> <code>Locked</code> \n<b>Cleaning Links Are Already Locked by :</b> '..get_info(redis:get('locker_links'..chat_id))..''
                 else
                   text = '<b>وضعيت قبلي لينک :</b> <code>قفل</code> \n<b>قفل لينک از قبل فعال شده بود توسط :</b>\n'..get_info(redis:get('locker_links'..chat_id))..''
                 end
                 return tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'html')
               else
-                redis:set('lock_links:youseftearbot'..chat_id, "True")
+                redis:set('lock_links:megacreed'..chat_id, "True")
                 redis:set('locker_links'..chat_id, msg.sender_user_id_)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Links Status :</b> <code>Locked</code> \n<b>Links Has been Locked by :</b> '..get_info(msg.sender_user_id_)..''
                 else
                   text = '<b>وضعيت لينک :</b> <code>قفل</code> \n<b>لينک ها قفل شد توسط :</b>\n'..get_info(msg.sender_user_id_)..''
@@ -2373,8 +2373,8 @@ Our Channel : @TearTeam
               end
             end
             if msg.content_.text_:match("^[Uu]nlock links$")  and is_mod(msg)  then
-              if not redis:get('lock_links:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if not redis:get('lock_links:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text ='<b>‌Links Cleaning Was on :</b> <code>UnLock</code>\n<b>Status Not Changed !</b>'
                 else
                   text = '<b>وضعيت قبلي لينک :</b> <code>باز</code>\n<b>وضعيت تغيير نکرد !</b>'
@@ -2382,8 +2382,8 @@ Our Channel : @TearTeam
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'html')
               else
                 redis:set('unlocker_links'..chat_id, msg.sender_user_id_)
-                redis:del('lock_links:youseftearbot'..chat_id)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                redis:del('lock_links:megacreed'..chat_id)
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Links Status :</b> <code>UnLock</code>\n<b>Links Cleaning is Disabled !</b>'
                 else
                   text = '<b>وضعيت لينک :</b> <code>باز</code>\n<b>قفل لينک غير فعال شد !</b>'
@@ -2393,17 +2393,17 @@ Our Channel : @TearTeam
             end
             --lock username
             if msg.content_.text_:match("^[Ll]ock username$") and is_mod(msg)  then
-              if redis:get('lock_username:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:get('lock_username:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Username Status Was :</b> <code>Locked</code> \n<b>Cleaning Username Are Already Locked by :</b> '..get_info(redis:get('locker_username'..chat_id))..''
                 else
                   text = '<b>وضعيت قبلي يوزرنيم :</b> <code>قفل</code> \n<b>قفل يوزرنيم از قبل فعال شده بود توسط :</b>\n'..get_info(redis:get('locker_username'..chat_id))..''
                 end
                 return tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'html')
               else
-                redis:set('lock_username:youseftearbot'..chat_id, "True")
+                redis:set('lock_username:megacreed'..chat_id, "True")
                 redis:set('locker_username'..chat_id, msg.sender_user_id_)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Username Status :</b> <code>Locked</code> \n<b>Username Has been Locked by :</b> '..get_info(msg.sender_user_id_)..''
                 else
                   text = '<b>وضعيت يوزرنيم :</b> <code>قفل</code> \n<b>يوزرنيم ها قفل شد توسط :</b>\n'..get_info(msg.sender_user_id_)..''
@@ -2412,8 +2412,8 @@ Our Channel : @TearTeam
               end
             end
             if msg.content_.text_:match("^[Uu]nlock username$")  and is_mod(msg)  then
-              if not redis:get('lock_username:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if not redis:get('lock_username:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text ='<b>‌Username Cleaning Was on :</b> <code>UnLock</code>\n<b>Status Not Changed !</b>'
                 else
                   text = '<b>وضعيت قبلي يوزرنيم :</b> <code>باز</code>\n<b>وضعيت تغيير نکرد !</b>'
@@ -2421,8 +2421,8 @@ Our Channel : @TearTeam
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'html')
               else
                 redis:set('unlocker_username'..chat_id, msg.sender_user_id_)
-                redis:del('lock_username:youseftearbot'..chat_id)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                redis:del('lock_username:megacreed'..chat_id)
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Username Status :</b> <code>UnLock</code>\n<b>Username Cleaning is Disabled !</b>'
                 else
                   text = '<b>وضعيت يوزرنيم :</b> <code>باز</code>\n<b>قفل يوزرنيم غير فعال شد !</b>'
@@ -2433,17 +2433,17 @@ Our Channel : @TearTeam
 
             --lock tag
             if msg.content_.text_:match("^[Ll]ock tag$") and is_mod(msg)  then
-              if redis:get('lock_tag:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:get('lock_tag:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Tag Status Was :</b> <code>Locked</code> \n<b>Cleaning Tag Are Already Locked by :</b> '..get_info(redis:get('locker_tag'..chat_id))..''
                 else
                   text = '<b>وضعيت قبلي يوزرنيم :</b> <code>قفل</code> \n<b>قفل يوزرنيم از قبل فعال شده بود توسط :</b>\n'..get_info(redis:get('locker_tag'..chat_id))..''
                 end
                 return tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'html')
               else
-                redis:set('lock_tag:youseftearbot'..chat_id, "True")
+                redis:set('lock_tag:megacreed'..chat_id, "True")
                 redis:set('locker_tag'..chat_id, msg.sender_user_id_)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Tag Status :</b> <code>Locked</code> \n<b>Tag Has been Locked by :</b> '..get_info(msg.sender_user_id_)..''
                 else
                   text = '<b>وضعيت يوزرنيم :</b> <code>قفل</code> \n<b>يوزرنيم ها قفل شد توسط :</b>\n'..get_info(msg.sender_user_id_)..''
@@ -2452,8 +2452,8 @@ Our Channel : @TearTeam
               end
             end
             if msg.content_.text_:match("^[Uu]nlock tag$")  and is_mod(msg)  then
-              if not redis:get('lock_tag:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if not redis:get('lock_tag:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text ='<b>‌Tag Cleaning Was on :</b> <code>UnLock</code>\n<b>Status Not Changed !</b>'
                 else
                   text = '<b>وضعيت قبلي يوزرنيم :</b> <code>باز</code>\n<b>وضعيت تغيير نکرد !</b>'
@@ -2461,8 +2461,8 @@ Our Channel : @TearTeam
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'html')
               else
                 redis:set('unlocker_tag'..chat_id, msg.sender_user_id_)
-                redis:del('lock_tag:youseftearbot'..chat_id)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                redis:del('lock_tag:megacreed'..chat_id)
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Tag Status :</b> <code>UnLock</code>\n<b>Tag Cleaning is Disabled !</b>'
                 else
                   text = '<b>وضعيت يوزرنيم :</b> <code>باز</code>\n<b>قفل يوزرنيم غير فعال شد !</b>'
@@ -2473,17 +2473,17 @@ Our Channel : @TearTeam
             
             --arabic/persian
             if msg.content_.text_:match("^[Ll]ock persian$") and is_mod(msg)  then
-              if redis:get('lock_persian:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:get('lock_persian:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Persian/Arabic Status Was :</b> <code>Locked</code> \n<b>Cleaning Persian/Arabic Are Already Locked by :</b> '..get_info(redis:get('locker_persian'..chat_id))..''
                 else
                   text = '<b>وضعيت قبلي حروف فارسي :</b> <code>قفل</code> \n<b>قفل حروف فارسي از قبل فعال شده بود توسط :</b>\n'..get_info(redis:get('locker_persian'..chat_id))..''
                 end
                 return tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'html')
               else
-                redis:set('lock_persian:youseftearbot'..chat_id, "True")
+                redis:set('lock_persian:megacreed'..chat_id, "True")
                 redis:set('locker_persian'..chat_id, msg.sender_user_id_)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Persian/Arabic Status :</b> <code>Locked</code> \n<b>Persian/Arabic Has been Locked by :</b> '..get_info(msg.sender_user_id_)..''
                 else
                   text = '<b>وضعيت حروف فارسي :</b> <code>قفل</code> \n<b>حروف فارسي قفل شد توسط :</b>\n'..get_info(msg.sender_user_id_)..''
@@ -2492,8 +2492,8 @@ Our Channel : @TearTeam
               end
             end
             if msg.content_.text_:match("^[Uu]nlock persian$")  and is_mod(msg)  then
-              if not redis:get('lock_persian:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if not redis:get('lock_persian:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text ='<b>‌Persian/Arabic Cleaning Was on :</b> <code>UnLock</code>\n<b>Status Not Changed !</b>'
                 else
                   text = '<b>وضعيت قبلي حروف فارسي :</b> <code>باز</code>\n<b>وضعيت تغيير نکرد !</b>'
@@ -2501,8 +2501,8 @@ Our Channel : @TearTeam
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'html')
               else
                 redis:set('unlocker_persian'..chat_id, msg.sender_user_id_)
-                redis:del('lock_persian:youseftearbot'..chat_id)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                redis:del('lock_persian:megacreed'..chat_id)
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Persian/Arabic Status :</b> <code>UnLock</code>\n<b>Persian/Arabic Cleaning is Disabled !</b>'
                 else
                   text = '<b>وضعيت حروف فارسي :</b> <code>باز</code>\n<b>قفل حروف فارسي غير فعال شد !</b>'
@@ -2512,17 +2512,17 @@ Our Channel : @TearTeam
             end
             ---forward
             if msg.content_.text_:match("^[Ll]ock forward$") and is_mod(msg)  then
-              if redis:get('lock_forward:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:get('lock_forward:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Forward Status Was :</b> <code>Locked</code> \n<b>Cleaning Forward Are Already Locked by :</b> '..get_info(redis:get('locker_forward'..chat_id))..''
                 else
                   text = '<b>وضعيت قبلي فوروارد :</b> <code>قفل</code> \n<b>قفل فوروارد از قبل فعال شده بود توسط :</b>\n'..get_info(redis:get('locker_forward'..chat_id))..''
                 end
                 return tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'html')
               else
-                redis:set('lock_forward:youseftearbot'..chat_id, "True")
+                redis:set('lock_forward:megacreed'..chat_id, "True")
                 redis:set('locker_forward'..chat_id, msg.sender_user_id_)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Forward Status :</b> <code>Locked</code> \n<b>Forward Has been Locked by :</b> '..get_info(msg.sender_user_id_)..''
                 else
                   text = '<b>وضعيت فوروارد :</b> <code>قفل</code> \n<b>فوروارد قفل شد توسط :</b>\n'..get_info(msg.sender_user_id_)..''
@@ -2531,8 +2531,8 @@ Our Channel : @TearTeam
               end
             end
             if msg.content_.text_:match("^[Uu]nlock forward$")  and is_mod(msg)  then
-              if not redis:get('lock_forward:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if not redis:get('lock_forward:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text ='<b>‌Forward Cleaning Was on :</b> <code>UnLock</code>\n<b>Status Not Changed !</b>'
                 else
                   text = '<b>وضعيت قبلي فوروارد :</b> <code>باز</code>\n<b>وضعيت تغيير نکرد !</b>'
@@ -2540,8 +2540,8 @@ Our Channel : @TearTeam
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'html')
               else
                 redis:set('unlocker_forward'..chat_id, msg.sender_user_id_)
-                redis:del('lock_forward:youseftearbot'..chat_id)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                redis:del('lock_forward:megacreed'..chat_id)
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Forward Status :</b> <code>UnLock</code>\n<b>Forward Cleaning is Disabled !</b>'
                 else
                   text = '<b>وضعيت فوروارد :</b> <code>باز</code>\n<b>قفل فوروارد غير فعال شد !</b>'
@@ -2551,17 +2551,17 @@ Our Channel : @TearTeam
             end
             --lock fosh
             if msg.content_.text_:match("^[Ll]ock fosh$") and is_mod(msg)  then
-              if redis:get('lock_fosh:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:get('lock_fosh:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Fosh Status Was :</b> <code>Locked</code> \n<b>Cleaning Fosh Are Already Locked by :</b> '..get_info(redis:get('locker_fosh'..chat_id))..''
                 else
                   text = '<b>وضعيت قبلي فحش :</b> <code>قفل</code> \n<b>قفل فحش از قبل فعال شده بود توسط :</b>\n'..get_info(redis:get('locker_fosh'..chat_id))..''
                 end
                 return tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'html')
               else
-                redis:set('lock_fosh:youseftearbot'..chat_id, "True")
+                redis:set('lock_fosh:megacreed'..chat_id, "True")
                 redis:set('locker_fosh'..chat_id, msg.sender_user_id_)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Fosh Status :</b> <code>Locked</code> \n<b>Fosh Has been Locked by :</b> '..get_info(msg.sender_user_id_)..''
                 else
                   text = '<b>وضعيت فحش :</b> <code>قفل</code> \n<b>فحش قفل شد توسط :</b>\n'..get_info(msg.sender_user_id_)..''
@@ -2570,8 +2570,8 @@ Our Channel : @TearTeam
               end
             end
             if msg.content_.text_:match("^[Uu]nlock fosh$")  and is_mod(msg)  then
-              if not redis:get('lock_fosh:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if not redis:get('lock_fosh:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text ='<b>‌Fosh Cleaning Was on :</b> <code>UnLock</code>\n<b>Status Not Changed !</b>'
                 else
                   text = '<b>وضعيت قبلي فحش :</b> <code>باز</code>\n<b>وضعيت تغيير نکرد !</b>'
@@ -2579,8 +2579,8 @@ Our Channel : @TearTeam
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'html')
               else
                 redis:set('unlocker_fosh'..chat_id, msg.sender_user_id_)
-                redis:del('lock_fosh:youseftearbot'..chat_id)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                redis:del('lock_fosh:megacreed'..chat_id)
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Fosh Status :</b> <code>UnLock</code>\n<b>Fosh Cleaning is Disabled !</b>'
                 else
                   text = '<b>وضعيت فحش :</b> <code>باز</code>\n<b>قفل فحش غير فعال شد !</b>'
@@ -2591,17 +2591,17 @@ Our Channel : @TearTeam
 
             --lock location
             if msg.content_.text_:match("^[Ll]ock location$") and is_mod(msg)  then
-              if redis:get('lock_location:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:get('lock_location:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Location Status Was :</b> <code>Locked</code> \n<b>Cleaning Location Are Already Locked by :</b> '..get_info(redis:get('locker_location'..chat_id))..''
                 else
                   text = '<b>وضعيت قبلي اشتراک مکان :</b> <code>قفل</code> \n<b>قفل اشتراک مکان از قبل فعال شده بود توسط :</b>\n'..get_info(redis:get('locker_location'..chat_id))..''
                 end
                 return tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'html')
               else
-                redis:set('lock_location:youseftearbot'..chat_id, "True")
+                redis:set('lock_location:megacreed'..chat_id, "True")
                 redis:set('locker_location'..chat_id, msg.sender_user_id_)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Location Status :</b> <code>Locked</code> \n<b>Location Has been Locked by :</b> '..get_info(msg.sender_user_id_)..''
                 else
                   text = '<b>وضعيت اشتراک مکان :</b> <code>قفل</code> \n<b>اشتراک مکان قفل شد توسط :</b> \n'..get_info(msg.sender_user_id_)..''
@@ -2610,8 +2610,8 @@ Our Channel : @TearTeam
               end
             end
             if msg.content_.text_:match("^[Uu]nlock location$")  and is_mod(msg)  then
-              if not redis:get('lock_location:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if not redis:get('lock_location:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text ='<b>‌Location Cleaning Was on :</b> <code>UnLock</code>\n<b>Status Not Changed !</b>'
                 else
                   text = '<b>وضعيت قبلي اشتراک مکان :</b> <code>باز</code>\n<b>وضعيت تغيير نکرد !</b>'
@@ -2619,8 +2619,8 @@ Our Channel : @TearTeam
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'html')
               else
                 redis:set('unlocker_location'..chat_id, msg.sender_user_id_)
-                redis:del('lock_location:youseftearbot'..chat_id)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                redis:del('lock_location:megacreed'..chat_id)
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Location Status :</b> <code>UnLock</code>\n<b>Location Cleaning is Disabled !</b>'
                 else
                   text = '<b>وضعيت اشتراک مکان :</b> <code>باز</code>\n<b>قفل اشتراک مکان غير فعال شد !</b>'
@@ -2631,17 +2631,17 @@ Our Channel : @TearTeam
 
             --lock edit
             if msg.content_.text_:match("^[Ll]ock edit$") and is_mod(msg)  then
-              if redis:get('lock_edit:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:get('lock_edit:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Edit Status Was :</b> <code>Locked</code> \n<b>Cleaning Edit Are Already Locked by :</b> '..get_info(redis:get('locker_edit'..chat_id))..''
                 else
                   text = '<b>وضعيت قبلي ويرايش :</b> <code>قفل</code> \n<b>قفل ويرايش از قبل فعال شده بود توسط :</b> \n'..get_info(redis:get('locker_edit'..chat_id))..''
                 end
                 return tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'html')
               else
-                redis:set('lock_edit:youseftearbot'..chat_id, "True")
+                redis:set('lock_edit:megacreed'..chat_id, "True")
                 redis:set('locker_edit'..chat_id, msg.sender_user_id_)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Edit Status :</b> <code>Locked</code> \n<b>Edit Has been Locked by :</b> '..get_info(msg.sender_user_id_)..''
                 else
                   text = '<b>وضعيت ويرايش :</b> <code>قفل</code> \n<b>ويرايش قفل شد توسط :</b>\n'..get_info(msg.sender_user_id_)..''
@@ -2650,8 +2650,8 @@ Our Channel : @TearTeam
               end
             end
             if msg.content_.text_:match("^[Uu]nlock edit$")  and is_mod(msg)  then
-              if not redis:get('lock_edit:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if not redis:get('lock_edit:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text ='<b>‌Edit Cleaning Was on :</b> <code>UnLock</code>\n<b>Status Not Changed !</b>'
                 else
                   text = '<b>وضعيت قبلي ويرايش :</b> <code>باز</code>\n<b>وضعيت تغيير نکرد !</b>'
@@ -2659,8 +2659,8 @@ Our Channel : @TearTeam
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'html')
               else
                 redis:set('unlocker_edit'..chat_id, msg.sender_user_id_)
-                redis:del('lock_edit:youseftearbot'..chat_id)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                redis:del('lock_edit:megacreed'..chat_id)
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Edit Status :</b> <code>UnLock</code>\n<b>Edit Cleaning is Disabled !</b>'
                 else
                   text = '<b>وضعيت ويرايش :</b> <code>باز</code>\n<b>قفل ويرايش غير فعال شد !</b>'
@@ -2670,17 +2670,17 @@ Our Channel : @TearTeam
             end
             --- lock Caption
             if msg.content_.text_:match("^[Ll]ock caption$") and is_mod(msg)  then
-              if redis:get('lock_caption:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:get('lock_caption:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Caption Status Was :</b> <code>Locked</code> \n<b>Cleaning Caption Are Already Locked by :</b> '..get_info(redis:get('locker_caption'..chat_id))..''
                 else
                   text = '<b>وضعيت قبلي زير نويس :</b> <code>قفل</code> \n<b>قفل زير نويس از قبل فعال شده بود توسط :</b>\n'..get_info(redis:get('locker_caption'..chat_id))..''
                 end
                 return tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'html')
               else
-                redis:set('lock_caption:youseftearbot'..chat_id, "True")
+                redis:set('lock_caption:megacreed'..chat_id, "True")
                 redis:set('locker_caption'..chat_id, msg.sender_user_id_)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Caption Status :</b> <code>Locked</code> \n<b>Caption Has been Locked by :</b> '..get_info(msg.sender_user_id_)..''
                 else
                   text = '<b>وضعيت زير نويس :</b> <code>قفل</code> \n<b>زير نويس قفل شد توسط :</b>\n'..get_info(msg.sender_user_id_)..''
@@ -2689,8 +2689,8 @@ Our Channel : @TearTeam
               end
             end
             if msg.content_.text_:match("^[Uu]nlock caption$")  and is_mod(msg)  then
-              if not redis:get('lock_caption:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if not redis:get('lock_caption:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text ='<b>‌Caption Cleaning Was on :</b> <code>UnLock</code>\n<b>Status Not Changed !</b>'
                 else
                   text = '<b>وضعيت قبلي زير نويس :</b> <code>باز</code>\n<b>وضعيت تغيير نکرد !</b>'
@@ -2698,8 +2698,8 @@ Our Channel : @TearTeam
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'html')
               else
                 redis:set('unlocker_caption'..chat_id, msg.sender_user_id_)
-                redis:del('lock_caption:youseftearbot'..chat_id)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                redis:del('lock_caption:megacreed'..chat_id)
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Caption Status :</b> <code>UnLock</code>\n<b>Caption Cleaning is Disabled !</b>'
                 else
                   text = '<b>وضعيت زير نويس :</b> <code>باز</code>\n<b>قفل زير نويس غير فعال شد !</b>'
@@ -2709,17 +2709,17 @@ Our Channel : @TearTeam
             end
             --lock emoji
             if msg.content_.text_:match("^[Ll]ock emoji$") and is_mod(msg)  then
-              if redis:get('lock_emoji:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:get('lock_emoji:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Emoji Status Was :</b> <code>Locked</code> \n<b>Cleaning Emoji Are Already Locked by :</b> '..get_info(redis:get('locker_emoji'..chat_id))..''
                 else
                   text = '<b>وضعيت قبلي شکلک ها :</b> <code>قفل</code> \n<b>قفل شکلک ها از قبل فعال شده بود توسط :</b> \n'..get_info(redis:get('locker_emoji'..chat_id))..''
                 end
                 return tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'html')
               else
-                redis:set('lock_emoji:youseftearbot'..chat_id, "True")
+                redis:set('lock_emoji:megacreed'..chat_id, "True")
                 redis:set('locker_emoji'..chat_id, msg.sender_user_id_)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Emoji Status :</b> <code>Locked</code> \n<b>Emoji Has been Locked by :</b> '..get_info(msg.sender_user_id_)..''
                 else
                   text = '<b>وضعيت شکلک ها :</b> <code>قفل</code> \n<b>شکلک ها قفل شد توسط :</b>\n'..get_info(msg.sender_user_id_)..''
@@ -2728,8 +2728,8 @@ Our Channel : @TearTeam
               end
             end
             if msg.content_.text_:match("^[Uu]nlock emoji$")  and is_mod(msg)  then
-              if not redis:get('lock_emoji:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if not redis:get('lock_emoji:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text ='<b>‌Emoji Cleaning Was on :</b> <code>UnLock</code>\n<b>Status Not Changed !</b>'
                 else
                   text = '<b>وضعيت قبلي شکلک ها :</b> <code>باز</code>\n<b>وضعيت تغيير نکرد !</b>'
@@ -2737,8 +2737,8 @@ Our Channel : @TearTeam
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'html')
               else
                 redis:set('unlocker_emoji'..chat_id, msg.sender_user_id_)
-                redis:del('lock_emoji:youseftearbot'..chat_id)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                redis:del('lock_emoji:megacreed'..chat_id)
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Emoji Status :</b> <code>UnLock</code>\n<b>Emoji Cleaning is Disabled !</b>'
                 else
                   text = '<b>وضعيت شکلک ها :</b> <code>باز</code>\n<b>قفل شکلک ها غير فعال شد !</b>'
@@ -2748,17 +2748,17 @@ Our Channel : @TearTeam
             end
             --- lock inline
             if msg.content_.text_:match("^[Ll]ock inline$") and is_mod(msg)  then
-              if redis:get('lock_inline:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:get('lock_inline:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Inline Status Was :</b> <code>Locked</code> \n<b>Cleaning Inline Are Already Locked by :</b> '..get_info(redis:get('locker_inline'..chat_id))..''
                 else
                   text = '<b>وضعيت قبلي اينلاين :</b> <code>قفل</code> \n<b>قفل اينلاين از قبل فعال شده بود توسط :</b> \n'..get_info(redis:get('locker_inline'..chat_id))..''
                 end
                 return tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'html')
               else
-                redis:set('lock_inline:youseftearbot'..chat_id, "True")
+                redis:set('lock_inline:megacreed'..chat_id, "True")
                 redis:set('locker_inline'..chat_id, msg.sender_user_id_)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Inline Status :</b> <code>Locked</code> \n<b>Inline Has been Locked by :</b> '..get_info(msg.sender_user_id_)..''
                 else
                   text = '<b>وضعيت اينلاين :</b> <code>قفل</code> \n<b>اينلاين قفل شد توسط :</b>\n'..get_info(msg.sender_user_id_)..''
@@ -2767,8 +2767,8 @@ Our Channel : @TearTeam
               end
             end
             if msg.content_.text_:match("^[Uu]nlock inline$")  and is_mod(msg)  then
-              if not redis:get('lock_inline:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if not redis:get('lock_inline:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text ='<b>‌Inline Cleaning Was on :</b> <code>UnLock</code>\n<b>Status Not Changed !</b>'
                 else
                   text = '<b>وضعيت قبلي اينلاين :</b> <code>باز</code>\n<b>وضعيت تغيير نکرد !</b>'
@@ -2776,8 +2776,8 @@ Our Channel : @TearTeam
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'html')
               else
                 redis:set('unlocker_inline'..chat_id, msg.sender_user_id_)
-                redis:del('lock_inline:youseftearbot'..chat_id)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                redis:del('lock_inline:megacreed'..chat_id)
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Inline Status :</b> <code>UnLock</code>\n<b>Inline Cleaning is Disabled !</b>'
                 else
                   text = '<b>وضعيت اينلاين :</b> <code>باز</code>\n<b>قفل اينلاين غير فعال شد !</b>'
@@ -2790,17 +2790,17 @@ Our Channel : @TearTeam
             -- lock english
 
             if msg.content_.text_:match("^[Ll]ock english$") and is_mod(msg)  then
-              if redis:get('lock_english:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:get('lock_english:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>English Status Was :</b> <code>Locked</code> \n<b>Cleaning English Are Already Locked by :</b> '..get_info(redis:get('locker_english'..chat_id))..''
                 else
                   text = '<b>وضعيت قبلي حروف انگليسي :</b> <code>قفل</code> \n<b>قفل حروف انگليسي از قبل فعال شده بود توسط :</b> \n'..get_info(redis:get('locker_english'..chat_id))..''
                 end
                 return tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'html')
               else
-                redis:set('lock_english:youseftearbot'..chat_id, "True")
+                redis:set('lock_english:megacreed'..chat_id, "True")
                 redis:set('locker_english'..chat_id, msg.sender_user_id_)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>English Status :</b> <code>Locked</code> \n<b>English Has been Locked by :</b> '..get_info(msg.sender_user_id_)..''
                 else
                   text = '<b>وضعيت حروف انگليسي :</b> <code>قفل</code> \n<b>حروف انگليسي قفل شد توسط :</b>\n'..get_info(msg.sender_user_id_)..''
@@ -2809,8 +2809,8 @@ Our Channel : @TearTeam
               end
             end
             if msg.content_.text_:match("^[Uu]nlock english$")  and is_mod(msg)  then
-              if not redis:get('lock_english:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if not redis:get('lock_english:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text ='<b>‌English Cleaning Was on :</b> <code>UnLock</code>\n<b>Status Not Changed !</b>'
                 else
                   text = '<b>وضعيت قبلي حروف انگليسي :</b> <code>باز</code>\n<b>وضعيت تغيير نکرد !</b>'
@@ -2818,8 +2818,8 @@ Our Channel : @TearTeam
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'html')
               else
                 redis:set('unlocker_english'..chat_id, msg.sender_user_id_)
-                redis:del('lock_english:youseftearbot'..chat_id)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                redis:del('lock_english:megacreed'..chat_id)
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>English Status :</b> <code>UnLock</code>\n<b>English Cleaning is Disabled !</b>'
                 else
                   text = '<b>وضعيت حروف انگليسي :</b> <code>باز</code>\n<b>قفل حروف انگليسي غير فعال شد !</b>'
@@ -2830,17 +2830,17 @@ Our Channel : @TearTeam
 
             -- lock reply
             if msg.content_.text_:match("^[Ll]ock reply$") and is_mod(msg)  then
-              if redis:get('lock_reply:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:get('lock_reply:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Reply Status Was :</b> <code>Locked</code> \n<b>Cleaning Reply Are Already Locked by :</b> '..get_info(redis:get('locker_reply'..chat_id))..''
                 else
                   text = '<b>وضعيت قبلي پاسخ به پيام :</b> <code>قفل</code> \n<b>قفل پاسخ به پيام از قبل فعال شده بود توسط :</b> \n'..get_info(redis:get('locker_reply'..chat_id))..''
                 end
                 return tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'html')
               else
-                redis:set('lock_reply:youseftearbot'..chat_id, "True")
+                redis:set('lock_reply:megacreed'..chat_id, "True")
                 redis:set('locker_reply'..chat_id, msg.sender_user_id_)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Reply Status :</b> <code>Locked</code> \n<b>Reply Has been Locked by :</b> '..get_info(msg.sender_user_id_)..''
                 else
                   text = '<b>وضعيت پاسخ به پيام :</b> <code>قفل</code> \n<b>پاسخ به پيام قفل شد توسط :</b>\n'..get_info(msg.sender_user_id_)..''
@@ -2849,8 +2849,8 @@ Our Channel : @TearTeam
               end
             end
             if msg.content_.text_:match("^[Uu]nlock reply$")  and is_mod(msg)  then
-              if not redis:get('lock_reply:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if not redis:get('lock_reply:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text ='<b>‌Reply Cleaning Was on :</b> <code>UnLock</code>\n<b>Status Not Changed !</b>'
                 else
                   text = '<b>وضعيت قبلي پاسخ به پيام :</b> <code>باز</code>\n<b>وضعيت تغيير نکرد !</b>'
@@ -2858,8 +2858,8 @@ Our Channel : @TearTeam
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'html')
               else
                 redis:set('unlocker_reply'..chat_id, msg.sender_user_id_)
-                redis:del('lock_reply:youseftearbot'..chat_id)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                redis:del('lock_reply:megacreed'..chat_id)
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Reply Status :</b> <code>UnLock</code>\n<b>Reply Cleaning is Disabled !</b>'
                 else
                   text = '<b>وضعيت پاسخ به پيام :</b> <code>باز</code>\n<b>قفل پاسخ به پيام غير فعال شد !</b>'
@@ -2869,17 +2869,17 @@ Our Channel : @TearTeam
             end
             --lock tgservice
             if msg.content_.text_:match("^[Ll]ock tgservice$") and is_mod(msg)  then
-              if redis:get('lock_tgservice:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:get('lock_tgservice:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Tgservice Status Was :</b> <code>Locked</code> \n<b>Cleaning Tgservice Are Already Locked by :</b> '..get_info(redis:get('locker_tgservice'..chat_id))..''
                 else
                   text = '<b>وضعيت قبلي پيام ورود خروج :</b> <code>قفل</code> \n<b>قفل پيام ورود خروج از قبل فعال شده بود توسط :</b> \n'..get_info(redis:get('locker_tgservice'..chat_id))..''
                 end
                 return tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'html')
               else
-                redis:set('lock_tgservice:youseftearbot'..chat_id, "True")
+                redis:set('lock_tgservice:megacreed'..chat_id, "True")
                 redis:set('locker_tgservice'..chat_id, msg.sender_user_id_)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Tgservice Status :</b> <code>Locked</code> \n<b>Tgservice Has been Locked by :</b> '..get_info(msg.sender_user_id_)..''
                 else
                   text = '<b>وضعيت پيام ورود خروج :</b> <code>قفل</code> \n<b>پيام ورود خروج قفل شد توسط :</b>\n'..get_info(msg.sender_user_id_)..''
@@ -2888,8 +2888,8 @@ Our Channel : @TearTeam
               end
             end
             if msg.content_.text_:match("^[Uu]nlock tgservice$")  and is_mod(msg)  then
-              if not redis:get('lock_tgservice:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if not redis:get('lock_tgservice:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text ='<b>‌Tgservice Cleaning Was on :</b> <code>UnLock</code>\n<b>Status Not Changed !</b>'
                 else
                   text = '<b>وضعيت قبلي پيام ورود خروج :</b> <code>باز</code>\n<b>وضعيت تغيير نکرد !</b>'
@@ -2897,8 +2897,8 @@ Our Channel : @TearTeam
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'html')
               else
                 redis:set('unlocker_tgservice'..chat_id, msg.sender_user_id_)
-                redis:del('lock_tgservice:youseftearbot'..chat_id)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                redis:del('lock_tgservice:megacreed'..chat_id)
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Tgservice Status :</b> <code>UnLock</code>\n<b>Tgservice Cleaning is Disabled !</b>'
                 else
                   text = '<b>وضعيت پيام ورود خروج :</b> <code>باز</code>\n<b>قفل پيام ورود خروج غير فعال شد !</b>'
@@ -2909,17 +2909,17 @@ Our Channel : @TearTeam
 
             --lock spam
             if msg.content_.text_:match("^[Ll]ock spam$") and is_mod(msg)  then
-              if redis:get('lock_spam:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:get('lock_spam:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Spam Status Was :</b> <code>Locked</code> \n<b>Cleaning Spam Are Already Locked by :</b> '..get_info(redis:get('locker_spam'..chat_id))..''
                 else
                   text = '<b>وضعيت قبلي پيام طولاني :</b> <code>قفل</code> \n<b>قفل پيام طولاني از قبل فعال شده بود توسط :</b> \n'..get_info(redis:get('locker_spam'..chat_id))..''
                 end
                 return tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'html')
               else
-                redis:set('lock_spam:youseftearbot'..chat_id, "True")
+                redis:set('lock_spam:megacreed'..chat_id, "True")
                 redis:set('locker_spam'..chat_id, msg.sender_user_id_)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Spam Status :</b> <code>Locked</code> \n<b>Spam Has been Locked by :</b> '..get_info(msg.sender_user_id_)..''
                 else
                   text = '<b>وضعيت پيام طولاني :</b> <code>قفل</code> \n<b>پيام طولاني قفل شد توسط :</b>\n'..get_info(msg.sender_user_id_)..''
@@ -2928,8 +2928,8 @@ Our Channel : @TearTeam
               end
             end
             if msg.content_.text_:match("^[Uu]nlock spam$")  and is_mod(msg)  then
-              if not redis:get('lock_spam:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if not redis:get('lock_spam:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text ='<b>‌Spam Cleaning Was on :</b> <code>UnLock</code>\n<b>Status Not Changed !</b>'
                 else
                   text = '<b>وضعيت قبلي پيام طولاني :</b> <code>باز</code>\n<b>وضعيت تغيير نکرد !</b>'
@@ -2937,8 +2937,8 @@ Our Channel : @TearTeam
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'html')
               else
                 redis:set('unlocker_spam'..chat_id, msg.sender_user_id_)
-                redis:del('lock_spam:youseftearbot'..chat_id)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                redis:del('lock_spam:megacreed'..chat_id)
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Spam Status :</b> <code>UnLock</code>\n<b>Spam Cleaning is Disabled !</b>'
                 else
                   text = '<b>وضعيت پيام طولاني :</b> <code>باز</code>\n<b>قفل پيام طولاني غير فعال شد !</b>'
@@ -2949,17 +2949,17 @@ Our Channel : @TearTeam
 
             -- flood lock
             if msg.content_.text_:match("^[Ll]ock flood$") and is_mod(msg)  then
-              if redis:get('lock_flood:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:get('lock_flood:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Flood Status Was :</b> <code>Locked</code> \n<b>Cleaning Flood Are Already Locked by :</b> '..get_info(redis:get('locker_flood'..chat_id))..''
                 else
                   text = '<b>وضعيت قبلي پيام رگباري :</b> <code>قفل</code> \n<b>قفل پيام رگباري از قبل فعال شده بود توسط :</b> \n'..get_info(redis:get('locker_flood'..chat_id))..''
                 end
                 return tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'html')
               else
-                redis:set('lock_flood:youseftearbot'..chat_id, "True")
+                redis:set('lock_flood:megacreed'..chat_id, "True")
                 redis:set('locker_flood'..chat_id, msg.sender_user_id_)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Flood Status :</b> <code>Locked</code> \n<b>Flood Has been Locked by :</b> '..get_info(msg.sender_user_id_)..''
                 else
                   text = '<b>وضعيت پيام رگباري :</b> <code>قفل</code> \n<b>پيام رگباري قفل شد توسط :</b>\n'..get_info(msg.sender_user_id_)..''
@@ -2968,8 +2968,8 @@ Our Channel : @TearTeam
               end
             end
             if msg.content_.text_:match("^[Uu]nlock flood$")  and is_mod(msg)  then
-              if not redis:get('lock_flood:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if not redis:get('lock_flood:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text ='<b>‌Flood Cleaning Was on :</b> <code>UnLock</code>\n<b>Status Not Changed !</b>'
                 else
                   text = '<b>وضعيت قبلي پيام رگباري :</b> <code>باز</code>\n<b>وضعيت تغيير نکرد !</b>'
@@ -2977,8 +2977,8 @@ Our Channel : @TearTeam
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'html')
               else
                 redis:set('unlocker_flood'..chat_id, msg.sender_user_id_)
-                redis:del('lock_flood:youseftearbot'..chat_id)
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                redis:del('lock_flood:megacreed'..chat_id)
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '<b>Flood Status :</b> <code>UnLock</code>\n<b>Flood Cleaning is Disabled !</b>'
                 else
                   text = '<b>وضعيت پيام رگباري :</b> <code>باز</code>\n<b>قفل پيام رگباري غير فعال شد !</b>'
@@ -2989,15 +2989,15 @@ Our Channel : @TearTeam
             if msg.content_.text_:match("^[Ss]etfloodnum (%d+)$") and is_mod(msg) then
               local floodmax = {string.match(msg.content_.text_, "^(setfloodnum) (%d+)$")}
               if tonumber(floodmax[2]) < 2 then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Wrong number*\n_range is  [2-99999]_'
                 else
                   text = '*عدد اشتباه است !*\n_محدوده عدد براي تعيين :  [2-99999]_'
                 end
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               else
-                redis:set('floodnum:youseftearbot'..msg.chat_id_,floodmax[2])
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                redis:set('floodnum:megacreed'..msg.chat_id_,floodmax[2])
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*> Flood Number has been set to* : `['..floodmax[2]..']` *!*'
                 else
                   text = '*> تعداد حساسيت به پيام رگباري تنظيم شد به * : `['..floodmax[2]..']` *!*'
@@ -3009,15 +3009,15 @@ Our Channel : @TearTeam
             if msg.content_.text_:match("^[Ss]etspam (%d+)$") and is_mod(msg) then
               local maxspam = {string.match(msg.content_.text_, "^(setspam) (%d+)$")}
               if tonumber(maxspam[2]) < 20 or tonumber(maxspam[2]) > 2000 then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Error !*\n*Wrong Number of Value !*\n*Should be between *`[20-2000]` *!*'
                 else
                   text = '*خطا !*\n*مقدار تعيين شده اشتباه ميباشد !*\n*ميبايست بين *`[20-2000]` *باشد !*'
                 end
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil,text , 1, 'md')
               else
-                redis:set('maxspam:youseftearbot'..msg.chat_id_,maxspam[2])
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                redis:set('maxspam:megacreed'..msg.chat_id_,maxspam[2])
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*> Spam Characters has been set to* : `['..maxspam[2]..']`'
                 else
                   text = '*> ميزان حد مجازي پيام طولاني تنظيم شد به* : `['..maxspam[2]..']`'
@@ -3029,15 +3029,15 @@ Our Channel : @TearTeam
             if msg.content_.text_:match("^[Ss]etfloodtime (%d+)$") and is_mod(msg) then
               local floodt = {string.match(msg.content_.text_, "^(setfloodtime) (%d+)$")}
               if tonumber(floodt[2]) < 2 or tonumber(floodt[2]) > 999 then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Error !*\n*Wrong Number of Value !*\n*Should be between *`[2-999]` *!*'
                 else
                   text = '*خطا !*\n*مقدار تعيين شده اشتباه ميباشد !*\n*ميبايست بين *`[2-999]` *باشد !*'
                 end
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil,text , 1, 'md')
               else
-                redis:set('floodtime:youseftearbot'..msg.chat_id_,floodt[2])
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                redis:set('floodtime:megacreed'..msg.chat_id_,floodt[2])
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*> Flood Time has been set to* : `['..floodt[2]..']`'
                 else
                   text = '*> زمان پيام رگباري تنظيم شد به* : `['..floodt[2]..']`'
@@ -3047,7 +3047,7 @@ Our Channel : @TearTeam
             end
             -----------------------------------------------------------------------------------------------
             if msg.content_.text_:match("^[Ss]etlink$") and is_mod(msg) then
-              if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                 text = '*Please Send Group Link Now!*'
               else
                 text = '*لطفا لينک گروه را ارسال کنيد !*'
@@ -3067,91 +3067,91 @@ Our Channel : @TearTeam
 
 
             -----------------------------------------------------------------------------------------------------------------
-            local link = 'lock_links:youseftearbot'..chat_id
+            local link = 'lock_links:megacreed'..chat_id
             if redis:get(link) then
               link = "`Lock`"
             else
               link = "`Unlock`"
             end
 
-            local bots = 'lock_bots:youseftearbot'..chat_id
+            local bots = 'lock_bots:megacreed'..chat_id
             if redis:get(bots) then
               bots = "`Lock`"
             else
               bots = "`Unlock`"
             end
 
-            local flood = 'lock_flood:youseftearbot'..msg.chat_id_
+            local flood = 'lock_flood:megacreed'..msg.chat_id_
             if redis:get(flood) then
               flood = "`Lock`"
             else
               flood = "`Unlock`"
             end
 
-            local spam = 'lock_spam:youseftearbot'..chat_id
+            local spam = 'lock_spam:megacreed'..chat_id
             if redis:get(spam) then
               spam = "`Lock`"
             else
               spam = "`Unlock`"
             end
 
-            local username = 'lock_username:youseftearbot'..chat_id
+            local username = 'lock_username:megacreed'..chat_id
             if redis:get(username) then
               username = "`Lock`"
             else
               username = "`Unlock`"
             end
 
-            local tag = 'lock_tag:youseftearbot'..chat_id
+            local tag = 'lock_tag:megacreed'..chat_id
             if redis:get(tag) then
               tag = "`Lock`"
             else
               tag = "`Unlock`"
             end
 
-            local forward = 'lock_forward:youseftearbot'..chat_id
+            local forward = 'lock_forward:megacreed'..chat_id
             if redis:get(forward) then
               forward = "`Lock`"
             else
               forward = "`Unlock`"
             end
 
-            local arabic = 'lock_persian:youseftearbot'..chat_id
+            local arabic = 'lock_persian:megacreed'..chat_id
             if redis:get(arabic) then
               arabic = "`Lock`"
             else
               arabic = "`Unlock`"
             end
 
-            local eng = 'lock_english:youseftearbot'..chat_id
+            local eng = 'lock_english:megacreed'..chat_id
             if redis:get(eng) then
               eng = "`Lock`"
             else
               eng = "`Unlock`"
             end
 
-            local badword = 'lock_fosh:youseftearbot'..chat_id
+            local badword = 'lock_fosh:megacreed'..chat_id
             if redis:get(badword) then
               badword = "`Lock`"
             else
               badword = "`Unlock`"
             end
 
-            local edit = 'lock_edit:youseftearbot'..chat_id
+            local edit = 'lock_edit:megacreed'..chat_id
             if redis:get(edit) then
               edit = "`Lock`"
             else
               edit = "`Unlock`"
             end
 
-            local location = 'lock_location:youseftearbot'..chat_id
+            local location = 'lock_location:megacreed'..chat_id
             if redis:get(location) then
               location = "`Lock`"
             else
               location = "`Unlock`"
             end
 
-            local emoji = 'lock_emoji:youseftearbot'..chat_id
+            local emoji = 'lock_emoji:megacreed'..chat_id
             if redis:get(emoji) then
               emoji = "`Lock`"
             else
@@ -3159,28 +3159,28 @@ Our Channel : @TearTeam
             end
 
 
-            if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+            if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
               lang = '`English`'
             else
               lang = '`Persian`'
             end
 
 
-            local caption = 'lock_caption:youseftearbot'..chat_id
+            local caption = 'lock_caption:megacreed'..chat_id
             if redis:get(caption) then
               caption = "`Lock`"
             else
               caption = "`Unlock`"
             end
 
-            local inline = 'lock_inline:youseftearbot'..chat_id
+            local inline = 'lock_inline:megacreed'..chat_id
             if redis:get(inline) then
               inline = "`Lock`"
             else
               inline = "`Unlock`"
             end
 
-            local reply = 'lock_reply:youseftearbot'..chat_id
+            local reply = 'lock_reply:megacreed'..chat_id
             if redis:get(reply) then
               reply = "`Lock`"
             else
@@ -3188,28 +3188,28 @@ Our Channel : @TearTeam
             end
             ----------------------------
             --muteall
-            groups = redis:sismember('groups:youseftearbot',chat_id)
+            groups = redis:sismember('groups:megacreed',chat_id)
             if msg.content_.text_:match("^[Mm]ute all$") and is_mod(msg)  then
-              if redis:get('mute_all:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:get('mute_all:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute All is already on*'
                 else
                   text = '*همه ي پيام ها  از قبل در حالت حذف شدن هستند !*'
                 end
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute All Has Been Enabled !*'
                 else
                   text = '*همه ي پيام ها حذف خواهند شد ( گروه تعطيل شد ) *'
                 end
-                redis:set('mute_all:youseftearbot'..chat_id, "True")
+                redis:set('mute_all:megacreed'..chat_id, "True")
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               end
             end
             if msg.content_.text_:match("^[Uu]nmute all$") and is_mod(msg)  then
-              if not redis:get('mute_all:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if not redis:get('mute_all:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute All is already disabled*'
                 else
                   text = '*همه ي پيام ها از قبل حذف نميشدند !*'
@@ -3217,12 +3217,12 @@ Our Channel : @TearTeam
 
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute All has been Disabled*'
                 else
                   text = '*همه ي پيام ها از حالت حذف خارج شدند ( گروه باز شد ) !*'
                 end
-                redis:del('mute_all:youseftearbot'..chat_id)
+                redis:del('mute_all:megacreed'..chat_id)
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               end
             end
@@ -3232,26 +3232,26 @@ Our Channel : @TearTeam
 
 
             if msg.content_.text_:match("^[Mm]ute game$") and is_mod(msg)  then
-              if redis:get('mute_game:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:get('mute_game:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute game is already on*'
                 else
                   text = '*پيام هاي شامل بازي  از قبل در حالت حذف شدن هستند !*'
                 end
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute game Has Been Enabled*'
                 else
                   text = '*پيام هاي شامل بازي حذف خواهند شد *'
                 end
-                redis:set('mute_game:youseftearbot'..chat_id, "True")
+                redis:set('mute_game:megacreed'..chat_id, "True")
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               end
             end
             if msg.content_.text_:match("^[Uu]nmute game$") and is_mod(msg)  then
-              if not redis:get('mute_game:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if not redis:get('mute_game:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute game is already disabled*'
                 else
                   text = '*پيام هاي شامل بازي از قبل حذف نميشدند !*'
@@ -3259,12 +3259,12 @@ Our Channel : @TearTeam
 
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute game has been disabled*'
                 else
                   text = '*پيام هاي شامل بازي از حالت حذف خارج شدند !*'
                 end
-                redis:del('mute_game:youseftearbot'..chat_id)
+                redis:del('mute_game:megacreed'..chat_id)
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               end
             end
@@ -3274,38 +3274,38 @@ Our Channel : @TearTeam
 
 
             if msg.content_.text_:match("^[Mm]ute sticker$") and is_mod(msg)  then
-              if redis:get('mute_sticker:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:get('mute_sticker:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute sticker is already on*'
                 else
                   text = '*پيام هاي شامل استيکر  از قبل در حالت حذف شدن هستند !*'
                 end
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute sticker Has Been Enabled*'
                 else
                   text = '*پيام هاي شامل استيکر حذف خواهند شد *'
                 end
-                redis:set('mute_sticker:youseftearbot'..chat_id, "True")
+                redis:set('mute_sticker:megacreed'..chat_id, "True")
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               end
             end
             if msg.content_.text_:match("^[Uu]nmute sticker$") and is_mod(msg)  then
-              if not redis:get('mute_sticker:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if not redis:get('mute_sticker:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute sticker is already disabled*'
                 else
                   text = '*پيام هاي شامل استيکر از قبل حذف نميشدند !*'
                 end
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute sticker has been disabled*'
                 else
                   text = '*پيام هاي شامل استيکر از حالت حذف خارج شدند !*'
                 end
-                redis:del('mute_sticker:youseftearbot'..chat_id)
+                redis:del('mute_sticker:megacreed'..chat_id)
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               end
             end
@@ -3314,38 +3314,38 @@ Our Channel : @TearTeam
             --mute gif
 
             if msg.content_.text_:match("^[Mm]ute gif$") and is_mod(msg)  then
-              if redis:get('mute_gif:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:get('mute_gif:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute gif is already on*'
                 else
                   text = '*پيام هاي شامل گيف  از قبل در حالت حذف شدن هستند !*'
                 end
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute gif Has Been Enabled*'
                 else
                   text = '*پيام هاي شامل گيف حذف خواهند شد *'
                 end
-                redis:set('mute_gif:youseftearbot'..chat_id, "True")
+                redis:set('mute_gif:megacreed'..chat_id, "True")
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               end
             end
             if msg.content_.text_:match("^[Uu]nmute gif$") and is_mod(msg)  then
-              if not redis:get('mute_gif:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if not redis:get('mute_gif:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute gif is already disabled*'
                 else
                   text = '*پيام هاي شامل گيف از قبل حذف نميشدند !*'
                 end
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute gif has been disabled*'
                 else
                   text = '*پيام هاي شامل گيف از حالت حذف خارج شدند !*'
                 end
-                redis:del('mute_gif:youseftearbot'..chat_id)
+                redis:del('mute_gif:megacreed'..chat_id)
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               end
             end
@@ -3355,38 +3355,38 @@ Our Channel : @TearTeam
             --mute markdown
 
             if msg.content_.text_:match("^[Mm]ute markdown$") and is_mod(msg)  then
-              if redis:get('mute_markdown:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:get('mute_markdown:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute Markdown is already on*'
                 else
                   text = '*پيام هاي شامل رنگ  از قبل در حالت حذف شدن هستند !*'
                 end
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute Markdown Has Been Enabled*'
                 else
                   text = '*پيام هاي شامل رنگ حذف خواهند شد *'
                 end
-                redis:set('mute_markdown:youseftearbot'..chat_id, "True")
+                redis:set('mute_markdown:megacreed'..chat_id, "True")
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               end
             end
             if msg.content_.text_:match("^[Uu]nmute markdown$") and is_mod(msg)  then
-              if not redis:get('mute_markdown:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if not redis:get('mute_markdown:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute Markdown is already disabled*'
                 else
                   text = '*پيام هاي شامل رنگ از قبل حذف نميشدند !*'
                 end
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute Markdown has been disabled*'
                 else
                   text = '*پيام هاي شامل رنگ از حالت حذف خارج شدند !*'
                 end
-                redis:del('mute_markdown:youseftearbot'..chat_id)
+                redis:del('mute_markdown:megacreed'..chat_id)
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               end
             end
@@ -3396,38 +3396,38 @@ Our Channel : @TearTeam
 
 
             if msg.content_.text_:match("^[Mm]ute weblink$") and is_mod(msg)  then
-              if redis:get('mute_weblink:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:get('mute_weblink:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute Web Link is already on*'
                 else
                   text = '*پيام هاي شامل لينک سايت  از قبل در حالت حذف شدن هستند !*'
                 end
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute Web Link Has Been Enabled*'
                 else
                   text = '*پيام هاي شامل لينک سايت حذف خواهند شد *'
                 end
-                redis:set('mute_weblink:youseftearbot'..chat_id, "True")
+                redis:set('mute_weblink:megacreed'..chat_id, "True")
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               end
             end
             if msg.content_.text_:match("^[Uu]nmute weblink$") and is_mod(msg)  then
-              if not redis:get('mute_weblink:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if not redis:get('mute_weblink:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute Web Link is already disabled*'
                 else
                   text = '*پيام هاي شامل لينک سايت از قبل حذف نميشدند !*'
                 end
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute Web Link has been disabled*'
                 else
                   text = '*پيام هاي شامل لينک سايت از حالت حذف خارج شدند !*'
                 end
-                redis:del('mute_weblink:youseftearbot'..chat_id)
+                redis:del('mute_weblink:megacreed'..chat_id)
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               end
             end
@@ -3436,38 +3436,38 @@ Our Channel : @TearTeam
             --mute Keyboard
 
             if msg.content_.text_:match("^[Mm]ute keyboard$") and is_mod(msg)  then
-              if redis:get('mute_keyboard:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:get('mute_keyboard:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute Keyboard is already on*'
                 else
                   text = '*پيام هاي شامل دکمه شيشه اي ربات ها  از قبل در حالت حذف شدن هستند !*'
                 end
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute Keyboard Has Been Enabled*'
                 else
                   text = '*پيام هاي شامل دکمه شيشه اي ربات ها حذف خواهند شد *'
                 end
-                redis:set('mute_keyboard:youseftearbot'..chat_id, "True")
+                redis:set('mute_keyboard:megacreed'..chat_id, "True")
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               end
             end
             if msg.content_.text_:match("^[Uu]nmute keyboard$") and is_mod(msg)  then
-              if not redis:get('mute_keyboard:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if not redis:get('mute_keyboard:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute Keyboard is already disabled*'
                 else
                   text = '*پيام هاي شامل دکمه شيشه اي ربات ها از قبل حذف نميشدند !*'
                 end
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute Keyboard has been disabled*'
                 else
                   text = '*پيام هاي شامل دکمه شيشه اي ربات ها از حالت حذف خارج شدند !*'
                 end
-                redis:del('mute_keyboard:youseftearbot'..chat_id)
+                redis:del('mute_keyboard:megacreed'..chat_id)
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               end
             end
@@ -3477,38 +3477,38 @@ Our Channel : @TearTeam
 
 
             if msg.content_.text_:match("^[Mm]ute contact$") and is_mod(msg)  then
-              if redis:get('mute_contact:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:get('mute_contact:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute contact is already on*'
                 else
                   text = '*پيام هاي اشتراک مخاطب  از قبل در حالت حذف شدن هستند !*'
                 end
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute contact Has Been Enabled*'
                 else
                   text = '*پيام هاي اشتراک مخاطب حذف خواهند شد *'
                 end
-                redis:set('mute_contact:youseftearbot'..chat_id, "True")
+                redis:set('mute_contact:megacreed'..chat_id, "True")
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               end
             end
             if msg.content_.text_:match("^[Uu]nmute contact$") and is_mod(msg)  then
-              if not redis:get('mute_contact:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if not redis:get('mute_contact:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute contact is already disabled*'
                 else
                   text = '*پيام هاي اشتراک مخاطب از قبل حذف نميشدند !*'
                 end
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute contact has been disabled*'
                 else
                   text = '*پيام هاي اشتراک مخاطب از حالت حذف خارج شدند !*'
                 end
-                redis:del('mute_contact:youseftearbot'..chat_id)
+                redis:del('mute_contact:megacreed'..chat_id)
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               end
             end
@@ -3516,152 +3516,152 @@ Our Channel : @TearTeam
             --mute photo
 
             if msg.content_.text_:match("^[Mm]ute photo$") and is_mod(msg)  then
-              if redis:get('mute_photo:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:get('mute_photo:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute Photo is already on*'
                 else
                   text = '*پيام هاي شامل عکس  از قبل در حالت حذف شدن هستند !*'
                 end
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute Photo Has Been Enabled*'
                 else
                   text = '*پيام هاي شامل عکس حذف خواهند شد *'
                 end
-                redis:set('mute_photo:youseftearbot'..chat_id, "True")
+                redis:set('mute_photo:megacreed'..chat_id, "True")
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               end
             end
             if msg.content_.text_:match("^[Uu]nmute photo$") and is_mod(msg)  then
-              if not redis:get('mute_photo:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if not redis:get('mute_photo:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute Photo is already disabled*'
                 else
                   text = '*پيام هاي شامل عکس از قبل حذف نميشدند !*'
                 end
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute Photo has been disabled*'
                 else
                   text = '*پيام هاي شامل عکس از حالت حذف خارج شدند !*'
                 end
-                redis:del('mute_photo:youseftearbot'..chat_id)
+                redis:del('mute_photo:megacreed'..chat_id)
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               end
             end
 
             --mute audio
             if msg.content_.text_:match("^[Mm]ute audio$") and is_mod(msg)  then
-              if redis:get('mute_audio:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:get('mute_audio:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute audio is already on*'
                 else
                   text = '*پيام هاي شامل ترانه و موسيقي  از قبل در حالت حذف شدن هستند !*'
                 end
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute audio Has Been Enabled*'
                 else
                   text = '*پيام هاي شامل ترانه و موسيقي  حذف خواهند شد *'
                 end
-                redis:set('mute_audio:youseftearbot'..chat_id, "True")
+                redis:set('mute_audio:megacreed'..chat_id, "True")
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               end
             end
             if msg.content_.text_:match("^[Uu]nmute audio$") and is_mod(msg)  then
-              if not redis:get('mute_audio:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if not redis:get('mute_audio:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute audio is already disabled*'
                 else
                   text = '*پيام هاي شامل ترانه و موسيقي  از قبل حذف نميشدند !*'
                 end
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute audio has been disabled*'
                 else
                   text = '*پيام هاي شامل ترانه و موسيقي  از حالت حذف خارج شدند !*'
                 end
-                redis:del('mute_audio:youseftearbot'..chat_id)
+                redis:del('mute_audio:megacreed'..chat_id)
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               end
             end
 
             --mute voice
             if msg.content_.text_:match("^[Mm]ute voice$") and is_mod(msg)  then
-              if redis:get('mute_voice:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:get('mute_voice:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute Voice is already on*'
                 else
                   text = '*پيام هاي شامل صدا  از قبل در حالت حذف شدن هستند !*'
                 end
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute Voice Has Been Enabled*'
                 else
                   text = '*پيام هاي شامل صدا حذف خواهند شد *'
                 end
-                redis:set('mute_voice:youseftearbot'..chat_id, "True")
+                redis:set('mute_voice:megacreed'..chat_id, "True")
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               end
             end
             if msg.content_.text_:match("^[Uu]nmute voice$") and is_mod(msg)  then
-              if not redis:get('mute_voice:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if not redis:get('mute_voice:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute Voice is already disabled*'
                 else
                   text = '*پيام هاي شامل صدا از قبل حذف نميشدند !*'
                 end
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute Voice has been disabled*'
                 else
                   text = '*پيام هاي شامل صدا از حالت حذف خارج شدند !*'
                 end
-                redis:del('mute_voice:youseftearbot'..chat_id)
+                redis:del('mute_voice:megacreed'..chat_id)
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               end
             end
 
             --mute video
             if msg.content_.text_:match("^[Mm]ute video$") and is_mod(msg)  then
-              if redis:get('mute_video:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:get('mute_video:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute Video is already on*'
                 else
                   text = '*پيام هاي شامل فيلم  از قبل در حالت حذف شدن هستند !*'
                 end
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute Video Has Been Enabled*'
                 else
                   text = '*پيام هاي شامل فيلم حذف خواهند شد *'
                 end
-                redis:set('mute_video:youseftearbot'..chat_id, "True")
+                redis:set('mute_video:megacreed'..chat_id, "True")
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               end
             end
             if msg.content_.text_:match("^[Uu]nmute video$") and is_mod(msg)  then
-              if not redis:get('mute_video:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if not redis:get('mute_video:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute Video is already disabled*'
                 else
                   text = '*پيام هاي شامل فيلم از قبل حذف نميشدند !*'
                 end
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute Video has been disabled*'
                 else
                   text = '*پيام هاي شامل فيلم از حالت حذف خارج شدند !*'
                 end
-                redis:del('mute_video:youseftearbot'..chat_id)
+                redis:del('mute_video:megacreed'..chat_id)
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               end
             end
@@ -3669,38 +3669,38 @@ Our Channel : @TearTeam
             --mute document
 
             if msg.content_.text_:match("^[Mm]ute document$") and is_mod(msg)  then
-              if redis:get('mute_document:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:get('mute_document:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute Document [ File ] is already on*'
                 else
                   text = '*پيام هاي شامل فايل  از قبل در حالت حذف شدن هستند !*'
                 end
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute Document [ File ] Has Been Enabled*'
                 else
                   text = '*پيام هاي شامل فايل حذف خواهند شد *'
                 end
-                redis:set('mute_document:youseftearbot'..chat_id, "True")
+                redis:set('mute_document:megacreed'..chat_id, "True")
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               end
             end
             if msg.content_.text_:match("^[Uu]nmute document$") and is_mod(msg)  then
-              if not redis:get('mute_document:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if not redis:get('mute_document:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute Document [ File ] is already disabled*'
                 else
                   text = '*پيام هاي شامل فايل از قبل حذف نميشدند !*'
                 end
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute Document [ File ] has been disabled*'
                 else
                   text = '*پيام هاي شامل فايل از حالت حذف خارج شدند !*'
                 end
-                redis:del('mute_document:youseftearbot'..chat_id)
+                redis:del('mute_document:megacreed'..chat_id)
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               end
             end
@@ -3709,71 +3709,71 @@ Our Channel : @TearTeam
             --mute  text
 
             if msg.content_.text_:match("^[Mm]ute text$") and is_mod(msg)  then
-              if redis:get('mute_text:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:get('mute_text:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute Text is already on*'
                 else
                   text = '*پيام هاي شامل متن  از قبل در حالت حذف شدن هستند !*'
                 end
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute Text Has Been Enabled*'
                 else
                   text = '*پيام هاي شامل متن حذف خواهند شد *'
                 end
-                redis:set('mute_text:youseftearbot'..chat_id, "True")
+                redis:set('mute_text:megacreed'..chat_id, "True")
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               end
             end
             if msg.content_.text_:match("^[Uu]nmute text$") and is_mod(msg)  then
-              if not redis:get('mute_text:youseftearbot'..chat_id) then
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if not redis:get('mute_text:megacreed'..chat_id) then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute Text is already disabled*'
                 else
                   text = '*پيام هاي شامل متن از قبل حذف نميشدند !*'
                 end
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               else
-                if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+                if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                   text = '*Mute Text has been disabled*'
                 else
                   text = '*پيام هاي شامل متن از حالت حذف خارج شدند !*'
                 end
-                redis:del('mute_text:youseftearbot'..chat_id)
+                redis:del('mute_text:megacreed'..chat_id)
                 tdcli.sendText(chat_id, msg.id_, 0, 1, nil, text, 1, 'md')
               end
             end
 
 
             --settings
-            local all = 'mute_all:youseftearbot'..chat_id
+            local all = 'mute_all:megacreed'..chat_id
             if redis:get(all) then
               All = "`Mute`"
             else
               All = "`UnMute`"
             end
 
-            local spammax = 'maxspam:youseftearbot'..chat_id
+            local spammax = 'maxspam:megacreed'..chat_id
             if not redis:get(spammax) then
               spammax = tonumber(2000)
             else
-              spammax = redis:get('maxspam:youseftearbot'..chat_id)
+              spammax = redis:get('maxspam:megacreed'..chat_id)
             end
 
-            if not redis:get('floodnum:youseftearbot'..msg.chat_id_) then
+            if not redis:get('floodnum:megacreed'..msg.chat_id_) then
               floodnum = 5
             else
-              floodnum = redis:get('floodnum:youseftearbot'..msg.chat_id_)
+              floodnum = redis:get('floodnum:megacreed'..msg.chat_id_)
             end
             ------------
-            if not redis:get('floodtime:youseftearbot'..msg.chat_id_) then
+            if not redis:get('floodtime:megacreed'..msg.chat_id_) then
               floodtime = 3
             else
-              floodtime = redis:get('floodtime:youseftearbot'..msg.chat_id_)
+              floodtime = redis:get('floodtime:megacreed'..msg.chat_id_)
             end
 
-            local sticker = 'mute_sticker:youseftearbot'..chat_id
+            local sticker = 'mute_sticker:megacreed'..chat_id
             if redis:get(sticker) then
               sticker = "`Mute`"
             else
@@ -3781,91 +3781,91 @@ Our Channel : @TearTeam
             end
 
 
-            local game = 'mute_game:youseftearbot'..chat_id
+            local game = 'mute_game:megacreed'..chat_id
             if redis:get(game) then
               game = "`Mute`"
             else
               game = "`UnMute`"
             end
 
-            local keyboard = 'mute_keyboard:youseftearbot'..chat_id
+            local keyboard = 'mute_keyboard:megacreed'..chat_id
             if redis:get(keyboard) then
               keyboard = "`Mute`"
             else
               keyboard = "`UnMute`"
             end
 
-            local gif = 'mute_gif:youseftearbot'..chat_id
+            local gif = 'mute_gif:megacreed'..chat_id
             if redis:get(gif) then
               gif = "`Mute`"
             else
               gif = "`UnMute`"
             end
 
-            local markdown = 'mute_markdown:youseftearbot'..chat_id
+            local markdown = 'mute_markdown:megacreed'..chat_id
             if redis:get(markdown) then
               markdown = "`Mute`"
             else
               markdown= "`UnMute`"
             end
 
-            local weblink = 'mute_weblink:youseftearbot'..chat_id
+            local weblink = 'mute_weblink:megacreed'..chat_id
             if redis:get(weblink) then
               weblink = "`Mute`"
             else
               weblink = "`UnMute`"
             end
 
-            local contact = 'mute_contact:youseftearbot'..chat_id
+            local contact = 'mute_contact:megacreed'..chat_id
             if redis:get(contact) then
               contact = "`Mute`"
             else
               contact = "`UnMute`"
             end
 
-            local photo = 'mute_photo:youseftearbot'..chat_id
+            local photo = 'mute_photo:megacreed'..chat_id
             if redis:get(photo) then
               photo = "`Mute`"
             else
               photo = "`UnMute`"
             end
 
-            local audio = 'mute_audio:youseftearbot'..chat_id
+            local audio = 'mute_audio:megacreed'..chat_id
             if redis:get(audio) then
               audio = "`Mute`"
             else
               audio = "`UnMute`"
             end
 
-            local voice = 'mute_voice:youseftearbot'..chat_id
+            local voice = 'mute_voice:megacreed'..chat_id
             if redis:get(voice) then
               voice = "`Mute`"
             else
               voice = "`UnMute`"
             end
 
-            local video = 'mute_video:youseftearbot'..chat_id
+            local video = 'mute_video:megacreed'..chat_id
             if redis:get(video) then
               video = "`Mute`"
             else
               video = "`UnMute`"
             end
 
-            local document = 'mute_document:youseftearbot'..chat_id
+            local document = 'mute_document:megacreed'..chat_id
             if redis:get(document) then
               document = "`Mute`"
             else
               document = "`UnMute`"
             end
 
-            local text1 = 'mute_text:youseftearbot'..chat_id
+            local text1 = 'mute_text:megacreed'..chat_id
             if redis:get(text1) then
               text1 = "`Mute`"
             else
               text1 = "`UnMute`"
             end
 
-            local ex = redis:ttl("bot:charge:youseftearbot"..msg.chat_id_)
+            local ex = redis:ttl("bot:charge:megacreed"..msg.chat_id_)
             if ex == -1 then
               exp_dat = 'Unlimited'
             else
@@ -3873,7 +3873,7 @@ Our Channel : @TearTeam
             end
 
             if msg.content_.text_:match("^[Ss]ettings$") and is_mod(msg) then
-              if redis:hget(msg.chat_id_, "lang:youseftearbot") == "en" then
+              if redis:hget(msg.chat_id_, "lang:megacreed") == "en" then
                 text = "_Settings :_".."\n---------------------\n"
                 .."*Group Expire Time :* "..exp_dat.." *Days Later !*\n"
                 .."*Group Language :* "..lang.."\n"
@@ -3965,15 +3965,15 @@ Our Channel : @TearTeam
 
             if msg.content_.text_:match("^ownerlist$") and is_admin(msg) then
               text = "<b>Owners List :</b>\n\n"
-              for k,v in pairs(redis:smembers("bot:groupss:youseftearbot")) do
-                tt = redis:get('owners:youseftearbot'..v)
+              for k,v in pairs(redis:smembers("bot:groupss:megacreed")) do
+                tt = redis:get('owners:megacreed'..v)
                 text = text.."<b>"..k.."</b> > "..tt..""
               end
               tdcli.sendText(msg.chat_id_, msg.id_, 0, 1, nil, text, 1, 'html')
             end
 
             if msg.content_.text_:match("^[Ff]wdall$") and msg.reply_to_message_id_ then
-              for k,v in pairs(redis:hkeys("bot:groupss:youseftearbot")) do
+              for k,v in pairs(redis:hkeys("bot:groupss:megacreed")) do
                 tdcli.forwardMessages(v, chat_id,{[0] = reply_id}, 0)
               end
             end
@@ -4046,7 +4046,7 @@ Our Channel : @TearTeam
         end
         ---
 if msg.content_.reply_markup_ then
-          if redis:get('mute_keyboard:youseftearbot'..chat_id) or redis:get('mute_all:youseftearbot'..msg.chat_id_) then
+          if redis:get('mute_keyboard:megacreed'..chat_id) or redis:get('mute_all:megacreed'..msg.chat_id_) then
             if  msg.content_.reply_markup_ and not is_mod(msg) then
               tdcli.deleteMessages(chat_id, {[0] = msg.id_})
             end
@@ -4062,7 +4062,7 @@ if msg.content_.reply_markup_ then
             redis:hset(svuser, 'username', username)
           end
           if username and username:match("(.*)[Bb][Oo][Tt]$") then
-            if redis:get('lock_bots:youseftearbot'..msg.chat_id_) and not is_mod(msg) then
+            if redis:get('lock_bots:megacreed'..msg.chat_id_) and not is_mod(msg) then
               chat_kick(msg.chat_id_, result.id_)
               return false
             end
@@ -4071,7 +4071,7 @@ if msg.content_.reply_markup_ then
 
 if msg.content_.entities_ and msg.content_.entities_[0] then
 	if msg.content_.entities_[0].ID == "MessageEntityUrl" or msg.content_.entities_[0].ID == "MessageEntityTextUrl" then
- if redis:get('mute_weblink:youseftearbot'..msg.chat_id_) then
+ if redis:get('mute_weblink:megacreed'..msg.chat_id_) then
 	  if is_mod(msg) then
             return
           else
@@ -4083,7 +4083,7 @@ end
         --------        msg checks
 	if msg.content_.entities_[0].ID == "MessageEntityBold" or msg.content_.entities_[0].ID == "MessageEntityCode" or msg.content_.entities_[0].ID == "MessageEntityPre" or msg.content_.entities_[0].ID == "MessageEntityItalic" then
 
-        if redis:get('mute_markdown:youseftearbot'..msg.chat_id_) then
+        if redis:get('mute_markdown:megacreed'..msg.chat_id_) then
           if is_mod(msg) then
             return
           else
@@ -4096,42 +4096,42 @@ end
 if msg.content_.ID == "MessageForwarded" then
 
 
-	if redis:get('lock_forward:youseftearbot'..msg.chat_id_) or redis:get('mute_all:youseftearbot'..msg.chat_id_) then
+	if redis:get('lock_forward:megacreed'..msg.chat_id_) or redis:get('mute_all:megacreed'..msg.chat_id_) then
               tdcli.deleteMessages(chat_id, {[0] = msg.id_})
           end
 
 
 
-if redis:get('lock_links:youseftearbot'..chat_id) and (msg.content_.text_:match("[Hh]ttps://[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/(.*)") or msg.content_.text_:match("[Hh]ttps://[Tt].[Mm][Ee]/(.*)")) and not is_mod(msg) then
+if redis:get('lock_links:megacreed'..chat_id) and (msg.content_.text_:match("[Hh]ttps://[Tt][Ee][Ll][Ee][Gg][Rr][Aa][Mm].[Mm][Ee]/(.*)") or msg.content_.text_:match("[Hh]ttps://[Tt].[Mm][Ee]/(.*)")) and not is_mod(msg) then
             tdcli.deleteMessages(chat_id, {[0] = msg.id_})
           end
 
-          if redis:get('lock_tag:youseftearbot'..chat_id) and msg.content_.text_:find("#") and not is_mod(msg) then
+          if redis:get('lock_tag:megacreed'..chat_id) and msg.content_.text_:find("#") and not is_mod(msg) then
             tdcli.deleteMessages(chat_id, {[0] = msg.id_})
           end
 
-          if redis:get('lock_username:youseftearbot'..chat_id) and msg.content_.text_:find("@") and not is_mod(msg) then
+          if redis:get('lock_username:megacreed'..chat_id) and msg.content_.text_:find("@") and not is_mod(msg) then
             tdcli.deleteMessages(chat_id, {[0] = msg.id_})
           end
 
-          if redis:get('lock_persian:youseftearbot'..chat_id) and msg.content_.text_:find("[\216-\219][\128-\191]") and not is_mod(msg) then
+          if redis:get('lock_persian:megacreed'..chat_id) and msg.content_.text_:find("[\216-\219][\128-\191]") and not is_mod(msg) then
             tdcli.deleteMessages(chat_id, {[0] = msg.id_})
           end
 
         
 
           local is_english_msg = msg.content_.text_:find("[a-z]") or msg.content_.text_:find("[A-Z]")
-          if redis:get('lock_english:youseftearbot'..chat_id) and is_english_msg and not is_mod(msg) then
+          if redis:get('lock_english:megacreed'..chat_id) and is_english_msg and not is_mod(msg) then
             tdcli.deleteMessages(chat_id, {[0] = msg.id_})
           end
 
           local is_fosh_msg = msg.content_.text_:find("کير") or msg.content_.text_:find("کص") or msg.content_.text_:find("کس") or msg.content_.text_:find("کون") or msg.content_.text_:find("85") or msg.content_.text_:find("جنده") or msg.content_.text_:find("ننه") or msg.content_.text_:find("ننت") or msg.content_.text_:find("مادر") or msg.content_.text_:find("قهبه") or msg.content_.text_:find("گايي") or msg.content_.text_:find("سکس") or msg.content_.text_:find("kir") or msg.content_.text_:find("kos") or msg.content_.text_:find("kon") or msg.content_.text_:find("nne") or msg.content_.text_:find("nnt")
-          if redis:get('lock_fosh:youseftearbot'..chat_id) and is_fosh_msg and not is_mod(msg) then
+          if redis:get('lock_fosh:megacreed'..chat_id) and is_fosh_msg and not is_mod(msg) then
             tdcli.deleteMessages(chat_id, {[0] = msg.id_})
           end
 
           local is_emoji_msg = msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or  msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??") or msg.content_.text_:find("??")
-          if redis:get('lock_emoji:youseftearbot'..chat_id) and is_emoji_msg and not is_mod(msg)  then
+          if redis:get('lock_emoji:megacreed'..chat_id) and is_emoji_msg and not is_mod(msg)  then
             tdcli.deleteMessages(chat_id, {[0] = msg.id_})
           end
 	
@@ -4141,7 +4141,7 @@ if redis:get('lock_links:youseftearbot'..chat_id) and (msg.content_.text_:match(
 
 	     local _nl, ctrl_chars = string.gsub(msg.content_.text_, "%c", "")
             local _nl, real_digits = string.gsub(msg.content_.text_, "%d", "")
-            if redis:get('lock_spam:youseftearbot'..msg.chat_id_)  and  string.len(msg.content_.text_) > tonumber(redis:get('maxspam:youseftearbot'..msg.chat_id_)) and not is_mod(msg)  then
+            if redis:get('lock_spam:megacreed'..msg.chat_id_)  and  string.len(msg.content_.text_) > tonumber(redis:get('maxspam:megacreed'..msg.chat_id_)) and not is_mod(msg)  then
               tdcli.deleteMessages(msg.chat_id_, {[0] = msg.id_})
             end
 
@@ -4150,20 +4150,20 @@ if redis:get('lock_links:youseftearbot'..chat_id) and (msg.content_.text_:match(
 
         --AntiFlood
 
-  if redis:get('lock_flood:youseftearbot'..msg.chat_id_) then
+  if redis:get('lock_flood:megacreed'..msg.chat_id_) then
     local hash = 'user:'..msg.sender_user_id_..':msgs'
     local msgs = tonumber(redis:get(hash) or 0)
      local user = msg.sender_user_id_
 	local chat = msg.chat_id_
-if not redis:get('floodnum:youseftearbot'..msg.chat_id_) then
+if not redis:get('floodnum:megacreed'..msg.chat_id_) then
           NUM_MSG_MAX = tonumber(5)
         else
-          NUM_MSG_MAX = tonumber(redis:get('floodnum:youseftearbot'..msg.chat_id_))
+          NUM_MSG_MAX = tonumber(redis:get('floodnum:megacreed'..msg.chat_id_))
         end
-if not redis:get('floodtime:youseftearbot'..msg.chat_id_) then
+if not redis:get('floodtime:megacreed'..msg.chat_id_) then
           TIME_CHECK = tonumber(5)
         else
-          TIME_CHECK = tonumber(redis:get('floodtime:youseftearbot'..msg.chat_id_))
+          TIME_CHECK = tonumber(redis:get('floodtime:megacreed'..msg.chat_id_))
         end
     if msgs > NUM_MSG_MAX then
   if is_mod(msg) then
@@ -4174,7 +4174,7 @@ return
 else
                   tdcli.deleteMessages(msg.chat_id_, {[0] = msg.id_})
                   tdcli.changeChatMemberStatus(msg.chat_id_, msg.sender_user_id_, 'Kicked')
-	if redis:hget("lang:youseftearbot"..msg.chat_id_) == "en" then
+	if redis:hget("lang:megacreed"..msg.chat_id_) == "en" then
 	text = "<b>User :</b> "..get_info(msg.sender_user_id_).." <b>Has been Kicked Because of Flooding !</b>"
 	else
 	text = "<b>کاربر :</b> "..get_info(msg.sender_user_id_).." <b>بدليل دادن پيام رگباري غير مجاز از گروه حذف شد !</b>"
@@ -4192,7 +4192,7 @@ end
 end
         elseif data.ID == "UpdateMessageEdited" then
           vardump(data)
-          if redis:get('lock_edit:youseftearbot'..data.chat_id_) then
+          if redis:get('lock_edit:megacreed'..data.chat_id_) then
             tdcli.deleteMessages(data.chat_id_, {[0] = tonumber(data.message_id_)})
           end
         elseif data.message_ and data.message_.content_.members_ and data.message_.content_.members_[0].type_.ID == 'UserTypeBot' then --IS bot
@@ -4200,7 +4200,7 @@ end
           local uid = data.message_.sender_user_id_
           local aid = data.message_.content_.members_[0].id_
           local id = data.message_.id_
-          if redis:get('lock_bots:youseftearbot'..data.chat_id_) then
+          if redis:get('lock_bots:megacreed'..data.chat_id_) then
             tdcli.changeChatMemberStatus(gid, aid, 'Kicked')
           end
 
@@ -4221,7 +4221,7 @@ end
 
 --------      Mega Creed Bot ! ------------
 
---@Nero_dev
+
 
 
 
