@@ -13,3 +13,4 @@ chmod +x launch.sh
 ./launch.sh
 # Enter your Phone 
 ```
+# Thanks To Amir
